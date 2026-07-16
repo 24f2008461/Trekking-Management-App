@@ -1,0 +1,19 @@
+#Environments
+projenv/
+env/
+.env/
+.projenv/
+
+# Byte-compiled / optimized / DLL files
+__pycashe__
+*.py[cod]
+*$py.class
+
+#IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+#Flask session
+.flask_session/
