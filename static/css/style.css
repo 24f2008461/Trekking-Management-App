@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary: #B5BAFF;
+  --primary-dark: #9FA1FF;
+  --primary-light: #AEE2FF;
+  --accent: #D9F9DF;
+  --dark: #576A8F;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-400: #94a3b8;
+  --gray-600: #64748b;
+  --gray-800: #1e293b;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+
+* { box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-800);
+  min-height: 100vh;
+}
+
+
+
+/* ------------------navbar----------------------- */
+.fullbody {
+  background: var(--primary);
+  display: flex !important;
+}
+.fullbody .custom-sidebar {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #fff !important;
+}
+.fullbody .custom-sidebar{ 
+    background-color: var(--primary-light);
+    border: 0.01rem solid var(--gray-400);
+    width: 210px;
+}
+.fullbody .nav-link:hover,
+.fullbody .nav-link.active {
+  color: purple !important;
+  background: rgba(255,255,255,.15);
+}
+.custom-sidebar #options-sidebar{
+    background-color: var(--accent);
+}
+.fullbody .nav-link {
+  color: rgba(0, 0, 0, 0.45) !important;
+  font-weight: 600;
+  font-size: .9rem;
+  padding: .4rem .8rem !important;
+  border-radius: 6px;
+}
+
+.top-navbar{
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--gray-400);
+    background-color: var(--primary-dark);
+    border-radius:5px; 
+    flex: 1;
+}
+.top-navbar .nav-box{
+    display: flex;
+    align-items: center;
+      
+}
+.top-navbar .app-title{
+    padding: 5px;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(253, 151, 49) !important;
+    
+}
+.top-navbar .sidebar-toggle{
+    border-radius: 5px;
+    margin-left: 5px;
+    border: white;
+}
+
+.navbar-nav .logout-btn {
+  background: rgba(239,68,68,.45);
+  width: 4rem !important;
+  color: #fff !important;
+  border: 1px solid rgba(239,68,68,.25);
+  font-size: 1rem;
+  padding: .3rem .3rem !important;
+  margin-right: 8px;
+}
+.navbar-nav .logout-btn:hover { border-color:red; background-color: #fff; color: #ff0000 !important; }
+
+.app-brand .app-icon {
+    width: 90px;
+    height: 90px;
+}
+.app-brand{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.content-wrapper{
+    padding: 0;
+}
+.main-content{
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    max-width: 100%;
+}
