@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-
-    <div class="app-title">Trekking Management Application</div>
+    {% if session.get('user_id') %}
     <form>
+    
     <div class="input-form">
-        <div class="page-heading-box">Register</div>
+        <div>
+            <h1 class="auth-title">Trekk App</h1>
+            <p class="auth-subtitle">Sign Up to a Account</p>
+        </div>
+        
         <div class="form-box">
         <input type="text" name="fname" placeholder="Full Name" >
         <input type="email" name="email" placeholder="Email" >
@@ -32,6 +36,7 @@
      
     </div>
     </form>
+    {% endif %}
 
 
 </body>
