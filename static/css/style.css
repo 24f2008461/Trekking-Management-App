@@ -4,6 +4,7 @@
   --primary: #B5BAFF;
   --primary-dark: #9FA1FF;
   --primary-light: #AEE2FF;
+  --danger-light: #fca5a5;
   --accent: #D9F9DF;
   --dark: #576A8F;
   --gray-50: #f8fafc;
@@ -17,6 +18,7 @@
   --warning: #f59e0b;
   --radius: 10px;
   --shadow: 0 1px 3px rgba(0,0,0,.08);
+  --text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 3px 1px 0 #000;
 }
 
 
@@ -26,12 +28,15 @@ body {
   font-family: 'Inter', sans-serif;
   background: var(--primary);
   color: var(--gray-800);
+  padding: 0;
+  margin: 0;
   min-height: 100vh;
+  padding-bottom: 40px;
 }
 
 
 
-/* ------------------side-navbar----------------------- */
+/* ------------------side-navbar-mainsite------------------------ */
 
 .fullbody .custom-sidebar{ 
     background-color: var(--warning) !important;
@@ -46,26 +51,26 @@ body {
 }
 
 .fullbody .nav-link {
-  color: rgba(0, 0, 0, 0.45) !important;
+  color: rgba(0, 0, 0, 0.65) !important;
   font-weight: 600;
   font-size: .9rem;
   padding: .4rem .8rem !important;
-  border-radius: 5px;
+  border-radius: var(--radius);
   width: 140px;
   margin-left: 5px;
 }
 
 
 
-/*----------------top-navbar----------------*/
+/*----------------top-navbar-mainsite----------------*/
 .top-navbar{
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--gray-400);
     background-color: var(--primary-dark);
-    border-bottom-left-radius:10px; 
-    border-bottom-right-radius:10px; 
+    border-bottom-left-radius:var(--radius); 
+    border-bottom-right-radius:var(--radius); 
     flex: 1;
 }
 .top-navbar .nav-box{
@@ -81,7 +86,6 @@ body {
     
 }
 
-
 .top-navbar .app-title{
     padding: 5px;
     font-size: 25px;
@@ -91,7 +95,7 @@ body {
     
 }
 .top-navbar .sidebar-toggle{
-    border-radius: 5px;
+    border-radius: var(--radius);
     margin-left: 5px;
     border: white;
     background: transparent;
@@ -105,9 +109,81 @@ body {
   border: 1px solid rgba(239,68,68,.25);
   font-size: 1rem;
   width: 80px;
-  border-radius: 6px;  
+  border-radius: var(--radius);  
 }
-.navbar-nav .logout-btn:hover { border-color: transparent; background-color: #fff; color: #ff0000 !important; }
+.navbar-nav .logout-btn:hover { 
+  border-color: transparent;
+  background-color: #fff; 
+  color: #ff0000 !important; }
+
+
+
+
+
+
+/*------------------------main-page-----------------------*/
+.heading-part{
+  background-color: var(--accent)!important;
+  text-align: center;
+  padding: 2rem;
+}
+.heading-part h1{
+  color: var(--warning);
+  text-shadow: var(--text-shadow);
+  font-weight: 800;
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+}
+.heading-part a{
+  color: purple;
+  background-color: var(--primary-dark)
+}
+.heading-part .b1:hover {
+  
+  background: rgba(255,255,255,.15) !important;
+  color: var(--danger);
+  border-color: transparent;
+  color: var(--gray-800);
+}
+
+.heading-part .b2:hover {
+  background-color: var(--danger-light)!important;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.feature-part{
+  background-color: var(--primary);
+  padding: 2rem 0;
+  text-align: center;
+}
+.feature-part h1{
+  font-weight: 700;
+}
+.feature-box{
+  background-color: var(--primary);
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+.trek-join{
+  text-align: center;
+}
+.trek-join a:hover{
+ color: blue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*------------------------------------- auth --------------------------------------*/
@@ -115,8 +191,9 @@ body {
   text-align: center;
   font-size: 40px;
   color: var(--warning);
+  text-shadow: var(--text-shadow);
   margin-bottom: 0;
-  margin-top: 8px;
+  margin-top: 20px;
 }
 .auth-subtitle{
   text-align: center;
@@ -137,8 +214,18 @@ body {
 .input-form{
     border: 1px solid transparent;
     font-weight: 200;
+    width: 320px;    
+    margin: auto;
+    margin-top: 70px;
+    border-radius: 25px;
+    font-size: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+    background-color: var(--accent);  
+}
+.input-login-form{
+    border: 1px solid transparent;
+    font-weight: 400;
     width: 320px;
-    height: 550px;
     margin: auto;
     margin-top: 70px;
     border-radius: 25px;
@@ -147,11 +234,11 @@ body {
     background-color: var(--accent);  
 }
 .form-box{
-    margin-top: 20px;
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
    
 }
 
@@ -159,7 +246,7 @@ body {
     height: 25px;
     width: 250px;
     margin: auto;  
-    border: 1px solid transparent; 
+    border: none; 
     border-radius: 4px; 
     padding: 20px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -187,6 +274,7 @@ body {
 }
 .form-box button{
     background-color: var(--danger);
+    color: #fff;
     width: 100px;
     margin: auto;
     height: 40px;
@@ -196,6 +284,18 @@ body {
     margin-top: 30px;
 }
 .form-box button:hover{
-    background-color: var(--success);
-    color: white;
+  background-color: var(--danger-light);
+  color: var(--danger);
+}
+
+/*-------------------footer-------------------*/
+.footer{
+  position: fixed;
+  bottom: 0;       
+  left: 0;         
+  width: 100%;
+  height: 40px;
+  z-index: 100;    
+  text-align: center;
+  background-color: var(--gray-400);
 }
