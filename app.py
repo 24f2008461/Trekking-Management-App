@@ -1,9 +1,9 @@
-import os
-from flask import Flask,session
+import os  
+from flask import Flask,session,g
 from werkzeug.security import generate_password_hash
 from flask import render_template
 from models import db, USER
-
+from routes.auth_route import auth_bp
 
 # Setting directory
 cur_dir = os.path.abspath(os.path.dirname(__file__))  # current/working directory
@@ -13,10 +13,8 @@ cur_dir = os.path.abspath(os.path.dirname(__file__))  # current/working director
 app = Flask(__name__)
 
 #Configuring Database
-app.config['SQLALCHEMY_DATABASE_URI']  = "sqlite:///" + os.path.join(cur_dir, "instance", "project.db")
-
+app.config['SQLALCHEMY_DATABASE_URI']  = "sqlite:///" + os.path.join(cur_dir, "instance", "trekkapp.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
-
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY","prj-secret-key-tma")
 
 
@@ -41,7 +39,7 @@ with app.app_context():
         db.session.commit()
 
 
-
+app.register_blueprint(auth_bp)
 
 
 if __name__ == "__main__":

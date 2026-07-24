@@ -12,35 +12,41 @@
   <link href="/static/css/style.css" rel="stylesheet">
 </head>
 <body>
-    {% if session.get('user_id') %}
     <div class="fullbody d-flex flex-column min-vh-100">
         
-<form>
+
     <div class="input-login-form">
         <h1 class="auth-title">Trekk App</h1>
         <p class="auth-subtitle">Sign in to your Account</p>
-
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for cat, msg in messages %}
+        <div class="alert alert-{{ cat }} alert-dismissible fade show" role="alert">
+            {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
       
-        <div class="form-box">
+        <form class="form-box" action="{{ url_for('auth.login') }}" method="post">
             
-            <input type="email" name="email" placeholder="Email" >
+            <input type="text" name="uname" placeholder="Username" >
             <input type="password" name="password" placeholder="Password">
             <label for="" style="display:flex; flex-direction: row; height: 50px; align-items: center;">
                 <input type="checkbox" name="rememberme" style="width: 15px; height: 50px; margin-left: 65px; margin-right: 70px; box-shadow: none;"> 
                 <p style="font-size: 16px; margin-top: 18px;">Remember Me</p>
             </label>
         
-            <button >Sign In</button>
-        </div>
-        <p style="display:inline-block;font-size:13px; padding-left: 50px ;">Don't have an account? </p><a href="signup.html" style="font-size: 1rem; text-decoration: none;"> Register Here!</a>
+            <button>Login</button>
+        </form>
+        <p style="display:inline-block;font-size:13px; padding-left: 50px ;">Don't have an account? </p><a href="{{ url_for('auth.register')}}" style="font-size: 1rem; text-decoration: none;"> Register Here!</a>
     </div>
-    </form>
+    
         <footer class="footer">
             <div class="container">
                 <p class="mb-0">&copy; 2026 Trekk App | Trekking Management Application</p>
             </div>
         </footer>
-    {% endif %}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
