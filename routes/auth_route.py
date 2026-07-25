@@ -10,26 +10,27 @@ auth_bp = Blueprint("auth",__name__)
 def main():
    return render_template("mainpage.html")
 
-@auth_bp.route("/login")
+
+@auth_bp.route("/login", methods=['GET','POST'])
 def login():
    if request.method=="POST":
-      uname = request.form.get('uname','').strip()
+      uname = request.form.get('uname', '').strip()
       password = request.form.get('password', '').strip()
       loged_user = USER.query.filter_by(username=uname).first()
-      if loged_user and check_password_hash(loged_user.password,password):
+      if loged_user and check_password_hash(loged_user.password, password):
 
          if loged_user.status == "blacklisted":
             flash("Your Account has been blacklisted. Please Contact admin!", "danger")
             return redirect(url_for("auth.login"))
          
-         session["user_id"] = loged_user.id
-         session["role"] = loged_user.role
+         session["user_id"] = loged_user.user_id
+         session["role"] = loged_user.role.strip()
          session["username"] = loged_user.username
-         flash(f"Welcome back, {loged_user.full_name}!", "success")
+         flash(f"Welcome back, {loged_user.fullname}!", "success")
          if loged_user.role == "admin":
-               return redirect(url_for("admin.admin_dashboard"))
+            return redirect(url_for("admin.admin_dashboard"))
          if loged_user.role == "staff":
-               return redirect(url_for("staff.staff_dashboard"))
+            return redirect(url_for("staff.staff_dashboard"))
          return redirect(url_for("user.user_dashboard"))
       flash("Invalid credentials.", "danger")
    return render_template("/auth/login.html")
@@ -48,7 +49,7 @@ def register():
          flash("Please fill all required the Fields!","danger")
          return redirect(url_for('auth.register'))
 
-      if len(uname) < 5:
+      if len(uname) < 3:
          flash("Username must be 6 character long!","danger")
          return redirect(url_for('auth.register'))
 
