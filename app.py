@@ -45,5 +45,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(staff_bp)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

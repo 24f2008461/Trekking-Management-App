@@ -8,8 +8,15 @@ auth_bp = Blueprint("auth",__name__)
 
 @auth_bp.route("/")
 def main():
+   if 'user_id' in session:
+      role = session.get('role')
+      if role == 'admin':
+         return redirect(url_for('admin.admin_dashboard'))
+      elif role == 'staff':
+         return redirect(url_for("staff.staff_dashboard"))
+      else:
+         return redirect(url_for("user.user_dashboard"))
    return render_template("mainpage.html")
-
 
 @auth_bp.route("/login", methods=['GET','POST'])
 def login():
@@ -98,7 +105,8 @@ def register():
    return render_template("/auth/signup.html")
 
 
-      
-
-
-
+@auth_bp.route("/logout")
+def logout():
+   session.clear()
+   flash("Logged Out!" ,"info")
+   return redirect(url_for('auth.main'))
