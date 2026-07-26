@@ -106,6 +106,7 @@ body {
   background-color:  #fca5a5;
   color:var(--danger) !important;
   border: 1px solid rgba(239,68,68,.25);
+  text-align: center;
   font-size: 1rem;
   width: 80px;
   border-radius: var(--radius);  
@@ -282,30 +283,32 @@ body {
 }
 .data-card .data-output { text-align: center; font-size: 1.6rem; font-weight: 700; color: black; }
 .data-card .data-label { width: auto; text-align: center; font-size: .8rem;font-weight:bold; background-color: var(--primary-light); color: purple; padding: 0.5rem; text-transform: uppercase; letter-spacing: .5px; border-radius: var(--radius);}
-
+/*-------------------tables---------------------------------*/
+.table-panel{
+  background: var(--primary-light);
+  border: transparent;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.table-panel .table { margin-bottom: 0;}
+.table-panel .table thead th {
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-200);
+  font-weight: 600;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--dark);
+  padding: .75rem 1rem;
+}
+.table-panel .table td { padding: .75rem 1rem; vertical-align: middle; font-size: .9rem; }
 /*------------------------charts---------------------------------------*/
-.css-doughnut {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin: 0 auto;
-    /* This creates the "hole" in the middle of the pie chart */
-    -webkit-mask-image: radial-gradient(circle, transparent 60%, black 61%);
-    mask-image: radial-gradient(circle, transparent 60%, black 61%);
-  }
-  .legend-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
-    display: inline-block;
-    margin-right: 5px;
-  }
 
 /*------------------------------------footer------------------------*/
 .footer{
   text-align: center;
   background-color: var(--gray-400);
-  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 

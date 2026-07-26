@@ -31,8 +31,10 @@ def role_validator(*roles):
     return wrapper
 
 admin_bp = Blueprint("admin", __name__, url_prefix='/admin')
+
+
 #---------------------------------------main-dashboard-----------------------------------
-@admin_bp.route("/")
+@admin_bp.route("/admin_dashboard")
 @role_validator("admin")
 def admin_dashboard():
     app_data = {
@@ -52,5 +54,8 @@ def admin_dashboard():
     )
 
     newly_treks = TREKK.query.order_by(TREKK.date_of_create.desc()).limit(5).all()
+
+
+
 
     return render_template("admin/admin_dashboard.html", app_data=app_data, bookings=bookings, newly_treks=newly_treks)

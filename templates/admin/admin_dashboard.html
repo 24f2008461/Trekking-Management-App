@@ -44,8 +44,57 @@
       <div class="data-output">{{ app_data.bookings }}</div>
     </div>
   </div>
-</div>
 
+<div class="row gy-4 ">
+  <div class="col-lg-7">
+    <div class="table-panel">
+      <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+        <h6 class="mb-0 fw-bold" style="color: purple;">Recent Bookings</h6>
+        <a href="" class="btn btn-sm btn-outline-custom">View All</a>
+      </div>
+      <div class="control_table">
+        <table class="table">
+          <thead><tr><th>User</th><th>Trek</th><th>Date</th><th>Status</th></tr></thead>
+          <tbody>
+          {% for booking, user, trek in bookings %}
+          <tr>
+            <td>{{ user.full_name }}</td>
+            <td>{{ trek.name }}</td>
+            <td>{{ booking.booking_date.strftime('%Y-%m-%d') if booking.booking_date else '-' }}</td>
+            <td><span class="badge badge-{{ booking.status|lower }}">{{ booking.status }}</span></td>
+          </tr>
+          {% else %}
+          <tr><td colspan="4" class="text-center text-muted py-4">No bookings yet!</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+  
+  <div class="col-lg-5">
+    <div class="table-panel">
+      <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+        <h6 class="mb-0 fw-bold" style="color: purple;">Recent Treks</h6>
+        <a href="" class="btn btn-sm btn-outline-custom">View All</a>
+      </div>
+      <div class="control_table">
+        <table class="table">
+          <thead><tr><th>Name</th><th>Status</th></tr></thead>
+          <tbody>
+          {% for t in newly_treks %}
+          <tr>
+            <td>{{ t.name }}</td>
+            <td><span class="badge badge-{{ t.status|lower }}">{{ t.status }}</span></td>
+          </tr>
+          {% else %}
+          <tr><td colspan="2" class="text-center text-muted py-4">No treks yet!</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
