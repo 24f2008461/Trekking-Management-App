@@ -61,6 +61,7 @@ def admin_dashboard():
 
     return render_template("/admin/admin_dashboard.html", app_data=app_data, bookings=bookings, newly_treks=newly_treks)
 
+#-------------------------------------Manage-Treks----------------------------------
 
 @admin_bp.route("/treks")
 @role_validator("admin")
@@ -80,6 +81,7 @@ def find_treks():
 
 
 
-# @admin_bp.route("/Add_treks")
-# @role_validator("admin")
-# def add_treks():
+@admin_bp.route("/Add_Treks")
+@role_validator("admin")
+def add_treks():
+    return render_template("admin/add_treks.html")
