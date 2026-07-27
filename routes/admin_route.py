@@ -1,5 +1,6 @@
 from flask import session, request, render_template, Blueprint, flash, url_for, redirect
 from functools import wraps
+from sqlalchemy import or_
 from sqlalchemy.orm import joinedload
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, USER,TREKK,BOOKING
@@ -58,4 +59,22 @@ def admin_dashboard():
 
 
 
-    return render_template("admin/admin_dashboard.html", app_data=app_data, bookings=bookings, newly_treks=newly_treks)
+    return render_template("/admin/admin_dashboard.html", app_data=app_data, bookings=bookings, newly_treks=newly_treks)
+
+
+@admin_bp.route("/treks")
+@role_validator("admin")
+def find_treks():
+    t = request.args.get("t", '').strip()
+    query = TREKK.query
+    if t:
+        search_filters = db.or_(
+            TREKK.name.ilike(f"%{t}%"),
+            TREKK.trek_id == int(t) if t.isdigit() else db.false(),
+            TREKK.location.ilike(f"%{t}%") ,
+            )
+        query = query.filter(search_filters)
+
+    treks = query.order_by(TREKK.date_of_create.desc()).all()
+    return render_template("admin/treks.html", treks=treks, t=t)
+
