@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Add Trek{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <h1>Edit Trek</h1>
+  <u>Update trekking details of {{ trek.name }} </u>
+</div>
+
+<div class="form-panel">
+    <div class="py-1 border-bottom d-flex justify-content-between align-items-center">
+        <h6 class="mb-0 fs-2 fw-bold" style="color: purple;">Update Treks</h6>
+        <a href="{{ url_for('admin.find_treks' ) }}" class="btn btn-sm btn-accent">cancel</a>
+    </div>
+    <form action="{{ url_for('admin.edit_treks', t_id=trek.trek_id) }}" method="POST">
+        <div class="row py-3">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="tname">Trek Name</label>
+                    <input type="text" name="tname" id="tname" value="{{ trek.name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" name="location" id="location" value="{{ trek.location }}" required>
+                </div>
+                <div  class="form-group">
+                    <label for="duration">Duration(Days)</label>
+                    <input type="number" name="duration" id="duration" value="{{ trek.duration }}"required>
+                </div>
+                <div class="form-group" >
+                    <label for="difficulty">Difficulty</label>
+                    <select name="difficulty" id="difficulty" required>
+                        <option value="Easy" {% if trek.difficulty=='Easy' %}selected{% endif %}>Easy</option>
+                        <option value="Moderate" {% if trek.difficulty=='Moderate' %}selected{% endif %}>Moderate</option>
+                        <option value="Hard" {% if trek.difficulty=='Hard' %}selected{% endif %}>Hard</option>
+                    </select>
+                </div>
+                <div  class="form-group">
+                    <label for="total_slots">Total Slorts</label>
+                    <input type="number" name="total_slots" id="total_slots" value="{{ trek.total_slots }}" required>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="price">(Rs)Price</label>
+                    <input type="number" name="price" id="price"  value="{{ trek.price }}" min="0" step="0.01" value="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="assigned_staff">Assigned Staff</label>
+                    <select type="text" name="assigned_staff" id="assigned_staff"> 
+                        <option value="">— None —</option>
+                        {% for staff in staff_list %}
+                        <option value="{{ staff.user_id }}" {% if trek.assigned_staff_id == s.trek_id %}selected{% endif %}>{{ staff.fullname }}</option>
+                        {% endfor %}
+                    </select>
+                </div class="form-group">
+                <div class="form-group">
+                    <label for="start_date">Start Date</label>
+                    <input type="date" name="start_date" id="start_date" value="{{ trek.start_date or '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="end_date">End Date</label>
+                    <input type="date" name="end_date" id="end_date" value="{{ trek.end_date or '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select name="status" id="status" required>
+                        <option value="{{Pending}}" {% if trek.status==Pending %}selected{% endif %}>Pending</option>
+                        <option value="{{Approved}}" {% if trek.status==Approved %}selected{% endif %}>Approved</option>
+                        <option value="{{Open}}" {% if trek.status==Open %}selected{% endif %}>Open</option>
+                        <option value="{{Closed}}" {% if trek.status==Closed %}selected{% endif %}>Closed</option>
+                        <option value="{{Completed}}" {% if trek.status==Completed %}selected{% endif %}>Completed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label for="discription">Discription</label>
+            <textarea name="discription" id="discription" rows="2" style="border-radius: 6px; border: transparent;">{{ trek.discription or '' }}</textarea>
+        </div>
+        <div class="mt-4 d-flex gap-2 justify-content-center">
+            <button type="submit" class="btn btn-accent">Update</button>
+            <!-- <a href="{{ url_for('admin.find_treks') }}" class="btn btn-outline-custom">Cancel</a> -->
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+

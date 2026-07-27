@@ -118,13 +118,14 @@ def add_treks():
             start_date=start_date_obj,
             end_date=end_date_obj,
             status=request.form.get('status','Pending'),
+            discription=request.form.get("description", "").strip()
         )
 
         db.session.add(new_trek)
         db.session.commit()
         flash("Trek Added Successfully!", "success")
         return redirect(url_for('admin.find_treks'))
-    return render_template("admin/add_treks.html")
+    return render_template("admin/add_treks.html" ,staff_list=staff_list )
 
 
 
@@ -138,3 +139,57 @@ def delete_treks(t_id):
     flash("Trek deleted.", "info")
     return redirect(url_for("admin.find_treks"))
 
+
+@admin_bp.route("/treks/<int:t_id>/edit", methods=['GET','POST'])
+@role_validator("admin")
+def edit_treks(t_id):
+    trek = TREKK.query.get_or_404(t_id)
+    staff_list = USER.query.filter_by(role="staff", status="active").all()
+    if request.method == 'POST':
+        tname = request.form['tname'].strip()
+        location = request.form['location'].strip()
+
+        if not tname or not location:
+            flash("Please fill the Trek Name and Location!" , "danger")
+            return redirect(url_for('admin.edit_treks',t_id=t_id))
+        try:
+            total_slots_new = int(request.form['total_slots'])
+            price = float(request.form.get("price", 0))
+            duration = int(request.form['duration'])
+            if total_slots_new <= 0 or price < 0 or duration <= 0:
+                raise ValueError
+
+            start_date = request.form.get('start_date')
+            end_date = request.form.get('end_date')
+            
+            start_date_obj = date.fromisoformat(start_date) if start_date else None
+            end_date_obj = date.fromisoformat(end_date) if end_date else None
+
+        except ValueError:
+            flash("Total Slots & Duration Days must be positive number, also price can not negatice!", "danger")
+            return redirect(url_for('admin.edit_treks',t_id=t_id))
+
+        slots_booked = trek.total_slots - trek.avl_slots
+        avl_slots_new = max(total_slots_new  - slots_booked, 0)
+
+
+        updated_trek = TREKK(
+            name=tname,
+            location=location,
+            duration = duration,
+            difficulty = request.form['difficulty'],
+            total_slots=avl_slots_new,
+            avl_slots=avl_slots_new,
+            price=price,
+            assigned_staff_id=request.form['assigned_staff'] or None,
+            start_date=start_date_obj or None,
+            end_date=end_date_obj or None,
+            status=request.form.get('status','Pending'),
+            discription=request.form.get("description", "").strip()
+        )
+        db.session.add(updated_trek)
+        db.session.commit()
+        flash("Trek updated Successfully!" ,"success")
+        return redirect(url_for('admin.find_treks'))
+    return render_template("admin/edit_treks.html", trek=trek, staff_list=staff_list)
+    

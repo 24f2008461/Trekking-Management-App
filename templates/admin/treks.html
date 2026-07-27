@@ -35,7 +35,7 @@
         <td>{{ t.staff.full_name if t.staff else '—' }}</td>
         <td>{{ t.status|lower }}</td>
         <td>
-          <a href="" class="btn btn-sm btn-outline-custom me-1">Edit</a>
+          <a href="{{ url_for('admin.edit_treks', t_id=t.trek_id ) }}" class="btn btn-sm btn-outline-custom me-1">Edit</a>
           <form method="POST" action="{{ url_for('admin.delete_treks', t_id=t.trek_id ) }}" class="d-inline"
                 onsubmit="return confirm('Delete this trek?')">
             <button class="btn btn-sm btn-outline-danger">Delete</button>
