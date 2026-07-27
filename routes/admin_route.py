@@ -78,3 +78,8 @@ def find_treks():
     treks = query.order_by(TREKK.date_of_create.desc()).all()
     return render_template("admin/treks.html", treks=treks, t=t)
 
+
+
+# @admin_bp.route("/Add_treks")
+# @role_validator("admin")
+# def add_treks():
