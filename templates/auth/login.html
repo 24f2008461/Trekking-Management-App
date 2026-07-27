@@ -17,21 +17,21 @@
     {% if messages %}
     {% for cat, msg in messages %}
         
-        <div class="alert alert-{{ cat }} position-fixed top-0 start-50 translate-middle-x p-3 alert-dismissible fade show shadow-lg d-flex align-items-center" role="alert" style="min-width: 300px; border-radius: 10px;">
+        <div class="alert alert-{{ cat }} position-fixed top-10 start-50 translate-middle-x p-3 alert-dismissible fade show shadow-lg d-flex align-items-center" role="alert" style="min-width: 300px; border-radius: 10px;">
             <div class="me-auto fw-medium">
                 {{ msg }}
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert style="border: transparent; "></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" style="border: none;"></button>
         </div>
     {% endfor %}
     {% endif %}
     {% endwith %} 
 
-    <div class="input-login-form">
+    <div class="auth-form">
         <h1 class="auth-title">Trekk App</h1>
         <p class="auth-subtitle">Sign in to your Account</p>
         
-        <form action="{{ url_for('auth.login') }}" method="POST" class="form-box">
+        <form action="{{ url_for('auth.login') }}" method="POST" class="auth-box">
             
             <input type="text" name="uname" placeholder="Username" >
             <input type="password" name="password" placeholder="Password">

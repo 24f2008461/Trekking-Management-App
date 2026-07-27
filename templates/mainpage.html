@@ -11,12 +11,25 @@
 <body>
     <!-- ------------page-heading------------- -->
     <section class="heading-part">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for cat, msg in messages %}
+            
+            <div class="alert alert-{{ cat }} position-fixed top-1 start-50 translate-middle-x p-3 alert-dismissible fade show shadow-lg d-flex align-items-center" role="alert" style="min-width: 300px; border-radius: 10px;">
+                <div class="me-auto fw-medium">
+                    {{ msg }}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" style="border: none;"></button>
+            </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
             <div class="container">
                 <h1 >Trekk App</h1>
                 
                 <p>A bridge between the Trekker and Treks, organize the treks, books your treks , trail for adventures - at one place!</p>           
                 <div class="d-flex justify-content-center gap-3">
-                    <a href="{{ url_for('auth.register') }}" class="b1 btn btn-accent btn-lg px-4" >Start Trekking</a>
+                    <a href="{{ url_for('auth.register') }}" class="b1 btn btn-outline-light btn-lg px-4" >Start Trekking</a>
                     <a href="{{ url_for('auth.login') }}" class="b2 btn btn-outline-light btn-lg px-4">Sign In</a>
                 </div>
             </div>
@@ -67,20 +80,7 @@
                 <a href="{{ url_for('auth.register')}}" class="btn btn-primary-custom btn-lg px-5">Register Now!</a>
             </div>
       </section>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for cat, msg in messages %}
-            
-            <div class="alert alert-{{ cat }} position-fixed top-1 start-50 translate-middle-x p-3 alert-dismissible fade show shadow-lg d-flex align-items-center" role="alert" style="min-width: 300px; border-radius: 10px;">
-                <div class="me-auto fw-medium">
-                    {{ msg }}
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" 
-                style="border: transparent;"></button>
-            </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
+        
 
       <!-- ----------------------footer---------------------- -->
         <footer class="footer">

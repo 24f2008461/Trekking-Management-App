@@ -50,7 +50,7 @@
     <div class="table-panel">
       <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
         <h6 class="mb-0 fw-bold" style="color: purple;">Recent Bookings</h6>
-        <a href="" class="btn btn-sm btn-outline-custom">View All</a>
+        <a href="" class="btn btn-sm btn-accent">View All</a>
       </div>
       <div class="control_table">
         <table class="table">
@@ -61,7 +61,7 @@
             <td>{{ user.full_name }}</td>
             <td>{{ trek.name }}</td>
             <td>{{ booking.booking_date.strftime('%Y-%m-%d') if booking.booking_date else '-' }}</td>
-            <td><span class="badge badge-{{ booking.status|lower }}">{{ booking.status }}</span></td>
+            <td>{{ booking.status}}</td>
           </tr>
           {% else %}
           <tr><td colspan="4" class="text-center text-muted py-4">No bookings yet!</td></tr>
@@ -76,7 +76,7 @@
     <div class="table-panel">
       <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
         <h6 class="mb-0 fw-bold" style="color: purple;">Recent Treks</h6>
-        <a href="" class="btn btn-sm btn-outline-custom">View All</a>
+        <a href="{{ url_for('admin.find_treks' ) }}" class="btn btn-sm btn-accent">View All</a>
       </div>
       <div class="control_table">
         <table class="table">
@@ -85,7 +85,7 @@
           {% for t in newly_treks %}
           <tr>
             <td>{{ t.name }}</td>
-            <td><span class="badge badge-{{ t.status|lower }}">{{ t.status }}</span></td>
+            <td>{{ t.status }}</td>
           </tr>
           {% else %}
           <tr><td colspan="2" class="text-center text-muted py-4">No treks yet!</td></tr>

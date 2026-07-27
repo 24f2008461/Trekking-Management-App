@@ -61,15 +61,15 @@
         {% if messages %}
         {% for cat, msg in messages %}
             
-            <div class="alert alert-{{ cat }} position-fixed top-0 start-50 translate-middle-x p-3 alert-dismissible fade show shadow-lg d-flex align-items-center" role="alert" style="min-width: 300px; border-radius: 10px;">
+            <div class="alert alert-{{ cat }} position-fixed top-10 start-50 translate-middle-x p-3 alert-dismissible fade show shadow-lg d-flex align-items-center" role="alert" style="min-width: 300px; border-radius: 10px;">
                 <div class="me-auto fw-medium">
                     {{ msg }}
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert style="border: transparent;"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" style="border: none;"></button>
             </div>
         {% endfor %}
         {% endif %}
-        {% endwith %}
+        {% endwith %} 
          <footer class="footer">
             <div class="container">
                 <p class="mb-0">&copy; 2026 Trekk App | Trekking Management Application</p>
