@@ -58,7 +58,7 @@ def admin_dashboard():
 
     return render_template("/admin/admin_dashboard.html", app_data=app_data, bookings=bookings, newly_treks=newly_treks)
 
-#-------------------------------------Manage-Treks----------------------------------
+# ===========================================Manage Treks======================================================
 
 @admin_bp.route("/treks")
 @role_validator("admin")
@@ -193,11 +193,11 @@ def edit_treks(t_id):
         return redirect(url_for('admin.find_treks'))
     return render_template("admin/edit_treks.html", trek=trek, staff_list=staff_list)
     
-#-------------------------------------Manage Staffs--------------------------------------------
 
+# ===========================================Manage Staffs======================================================
 @admin_bp.route("/staff")
 @role_validator("admin")
-def find_staffs():
+def find_staff():
     s = request.args.get("s", "").strip()
     query = USER.query.filter_by(role="staff")
     if s:
@@ -211,6 +211,7 @@ def find_staffs():
 
 
 @admin_bp.route("/staff/Add_staffs" , methods=['GET','POST'])
+@role_validator("admin")
 def add_staff():
     if request.method=='POST':
         username = request.form.get('username', '').strip()
@@ -219,8 +220,9 @@ def add_staff():
         password = request.form.get('password','')
         f_password = request.form.get('fpassword','')
         phone_no = request.form.get('phone_no','').strip()
+        qualification=request.form.get('qualification').strip()
 
-        if not username or not fullname or not email or not password or not f_password:
+        if not username or not fullname or not email or not password or not f_password or not qualification or not phone_no:
             flash("Please fill all required fields.", "danger")
             return redirect(url_for('admin.add_staff'))
 
@@ -250,24 +252,25 @@ def add_staff():
         
         if f_password != password:
             flash("Password must be same!", "danger")
-            return redirect(url_for('auth.register'))
+            return redirect(url_for('auth.add_staff'))
         
         if len(phone_no) != 10 or not phone_no.isdigit():
                  flash("Invalid Phone number!", "danger")
-                 return redirect(url_for('auth.register'))
+                 return redirect(url_for('auth.add_staff'))
 
         new_staff = USER(
             username = username,
             fullname=fullname,
             email=email,
-            password=generate_password_hash(f_password),
+            password= generate_password_hash(f_password),
             phone_number=phone_no,
-            role='staff',
+            role ='staff',
             is_validated=True,
+            qualification=qualification
         )
         db.session.add(new_staff)
         db.session.commit()
-        flash("Added Staff Successfully!", "success")
+        flash("Added Staff! Successfully!", "success")
         return redirect(url_for("admin.find_staff"))
     return render_template("admin/add_staff.html")
             

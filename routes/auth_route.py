@@ -29,12 +29,15 @@ def login():
          if loged_user.status == "blacklisted":
             flash("Your Account has been blacklisted. Please Contact admin!", "danger")
             return redirect(url_for("auth.login"))
-         
+
+         if loged_user.status == "inactive":
+            loged_user.status = "active"
+
+            db.session.commit()
 
          session["user_id"] = loged_user.user_id
          session["role"] = loged_user.role.strip()
          session["username"] = loged_user.username
-         session["status"] =  loged_user.status='active'
          flash(f"Welcome back, {loged_user.fullname}!", "success")
 
 
@@ -44,7 +47,6 @@ def login():
             return redirect(url_for("staff.staff_dashboard"))
          return redirect(url_for("user.user_dashboard"))
       flash("Invalid credentials.", "danger")
-      
    return render_template("/auth/login.html")
 
 @auth_bp.route("/register", methods=['GET','POST'])

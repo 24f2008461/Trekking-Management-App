@@ -36,6 +36,7 @@ with app.app_context():
             password= generate_password_hash("admin@777"),
             phone_number=9191919191,
             role="admin",
+            is_validated=True
         )
         db.session.add(admin)
         db.session.commit()

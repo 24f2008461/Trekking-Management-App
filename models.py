@@ -20,8 +20,9 @@ class USER(UserMixin, db.Model): # user table(entity)
     password = db.Column(db.String(250),nullable=False)
     phone_number = db.Column(db.String(20),nullable=True)
     role = db.Column(db.String(50),nullable=False, default="user") # user ,staff, admin
-    status = db.Column(db.String(50),nullable=False, default="active") # active or inactive or blacklisted
+    status = db.Column(db.String(50),nullable=False, default="inactive") # active or inactive or blacklisted
     is_validated = db.Column(db.Boolean, default=False) # for admin to verify the user!
+    qualification = db.Column(db.String(300),nullable=True) #null for users & bit mandate for staff
     date_of_create = db.Column(db.DateTime, default=datetime.utcnow)
 
     #relationship

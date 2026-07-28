@@ -8,15 +8,15 @@
   </div>
 </div>
 
-<form method="GET" action="{{ url_for('admin.find_staffs') }}" class="d-flex mb-3" style="max-width: 400px;">
-<input type="text" name="s" value="{{ s }}" class="form-control me-2" placeholder="Search by Staff Name or ID...">
+<form method="GET" action="{{ url_for('admin.find_staff') }}" class="d-flex mb-3" style="max-width: 400px;">
+<input type="text" username="s" user_id="s" value="{{ s }}" class="form-control me-2" placeholder="Search by Staff Name or ID...">
 <button class="btn btn-outline-custom" type="submit">Search</button>
 </form>
 
 <div class="table-panel">
   <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
         <h6 class="mb-0 fw-bold" style="color: purple;">Staff</h6>
-        <a href="" class="btn btn-sm btn-accent ">+ Add Staff</a>
+        <a href="{{ url_for('admin.add_staff' ) }}" class="btn btn-sm btn-accent ">+ Add Staff</a>
       </div>
   <div class="control-table">
     <table class="table">
