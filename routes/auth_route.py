@@ -30,16 +30,21 @@ def login():
             flash("Your Account has been blacklisted. Please Contact admin!", "danger")
             return redirect(url_for("auth.login"))
          
+
          session["user_id"] = loged_user.user_id
          session["role"] = loged_user.role.strip()
          session["username"] = loged_user.username
+         session["status"] =  loged_user.status='active'
          flash(f"Welcome back, {loged_user.fullname}!", "success")
+
+
          if loged_user.role == "admin":
             return redirect(url_for("admin.admin_dashboard"))
          if loged_user.role == "staff":
             return redirect(url_for("staff.staff_dashboard"))
          return redirect(url_for("user.user_dashboard"))
       flash("Invalid credentials.", "danger")
+      
    return render_template("/auth/login.html")
 
 @auth_bp.route("/register", methods=['GET','POST'])
@@ -94,7 +99,8 @@ def register():
          email=email,
          password=generate_password_hash(f_password),
          phone_number=phone_no,
-         role='user'
+         role='user',
+         is_validated=True
       )
       db.session.add(new_user)
       db.session.commit()
@@ -107,6 +113,13 @@ def register():
 
 @auth_bp.route("/logout")
 def logout():
+   logged_user_id = session.get('user_id')
+   if logged_user_id:
+      logged_user = USER.query.get(logged_user_id)
+      if logged_user:
+         logged_user.status='inactive'
+         db.session.commit()
+   #Now clear session after setting status to inactive!
    session.clear()
    flash("Logged Out!" ,"info")
    return redirect(url_for('auth.main'))

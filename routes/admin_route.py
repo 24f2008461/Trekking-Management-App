@@ -208,3 +208,67 @@ def find_staffs():
         query = query.filter(db.or_(search_filters))
     staff = query.order_by(USER.date_of_create.desc()).all()
     return render_template("admin/staff.html", staff=staff, s=s)
+
+
+@admin_bp.route("/staff/Add_staffs" , methods=['GET','POST'])
+def add_staff():
+    if request.method=='POST':
+        username = request.form.get('username', '').strip()
+        fullname = request.form.get('fullname','').strip()
+        email = request.form.get('email','').strip()
+        password = request.form.get('password','')
+        f_password = request.form.get('fpassword','')
+        phone_no = request.form.get('phone_no','').strip()
+
+        if not username or not fullname or not email or not password or not f_password:
+            flash("Please fill all required fields.", "danger")
+            return redirect(url_for('admin.add_staff'))
+
+        if USER.query.filter_by(username=username).first():
+            flash("Username already exits. Please try another!", "danger")
+            return redirect(url_for('admin.add_staff'))
+        
+        if USER.query.filter_by(email=email).first():
+            flash("Email already registered. Please try another!", "danger")
+            return redirect(url_for('admin.add_staff'))
+        
+        if len(username) < 3:
+            flash("Username must be 6 character long!","danger")
+            return redirect(url_for('admin.add_staff'))
+        
+        if len(fullname) < 6:
+            flash("Full Name must be 6 character long!","danger")
+            return redirect(url_for('admin.add_staff'))
+        
+        if "@" not in email or "." not in email:
+            flash("Invalid Email Address!","danger")
+            return redirect(url_for('admin.add_staff'))
+            
+        if len(password) < 5:
+            flash("Password must be 5 character long!", "danger")
+            return redirect(url_for('admin.add_staff'))
+        
+        if f_password != password:
+            flash("Password must be same!", "danger")
+            return redirect(url_for('auth.register'))
+        
+        if len(phone_no) != 10 or not phone_no.isdigit():
+                 flash("Invalid Phone number!", "danger")
+                 return redirect(url_for('auth.register'))
+
+        new_staff = USER(
+            username = username,
+            fullname=fullname,
+            email=email,
+            password=generate_password_hash(f_password),
+            phone_number=phone_no,
+            role='staff',
+            is_validated=True,
+        )
+        db.session.add(new_staff)
+        db.session.commit()
+        flash("Added Staff Successfully!", "success")
+        return redirect(url_for("admin.find_staff"))
+    return render_template("admin/add_staff.html")
+            
+        
