@@ -193,3 +193,18 @@ def edit_treks(t_id):
         return redirect(url_for('admin.find_treks'))
     return render_template("admin/edit_treks.html", trek=trek, staff_list=staff_list)
     
+#-------------------------------------Manage Staffs--------------------------------------------
+
+@admin_bp.route("/staff")
+@role_validator("admin")
+def find_staffs():
+    s = request.args.get("s", "").strip()
+    query = USER.query.filter_by(role="staff")
+    if s:
+        search_filters = db.or_(
+                    USER.name.ilike(f"%{s}%"),
+                    USER.user_id == int(s) if s.isdigit() else db.false(),
+                    )
+        query = query.filter(db.or_(search_filters))
+    staff = query.order_by(USER.date_of_create.desc()).all()
+    return render_template("admin/staff.html", staff=staff, s=s)
