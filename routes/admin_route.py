@@ -129,15 +129,17 @@ def add_treks():
 
 
 
-@admin_bp.route("/treks/<int:t_id>/delete", methods=["POST"])
+@admin_bp.route("/treks/<int:t_id>/delete_trek", methods=["POST"])
 @role_validator("admin")
 def delete_treks(t_id):
-    trek = TREKK.query.get_or_404(t_id)
-    BOOKING.query.filter_by(trek_id=t_id).delete()
-    db.session.delete(trek)
-    db.session.commit()
-    flash("Trek deleted.", "info")
-    return redirect(url_for("admin.find_treks"))
+    if request.method=="POST":
+        trek = TREKK.query.get_or_404(t_id)
+        BOOKING.query.filter_by(trek_id=t_id).delete()
+        if trek is not None:
+            db.session.delete(trek)
+        db.session.commit()
+        flash("Trek deleted.", "info")
+        return redirect(url_for("admin.find_treks"))
 
 
 @admin_bp.route("/treks/<int:t_id>/edit", methods=['GET','POST'])
@@ -301,7 +303,7 @@ def validate_staff():
         current_filter=current_filter
     )
 # Route to handle Approval
-@admin_bp.route('/approve_staff/<int:user_id>', methods=['GET','POST'])
+@admin_bp.route('/<int:user_id>/approve_staff', methods=['GET','POST'])
 @role_validator('admin')
 def approve_staff(user_id):
     staff = USER.query.get_or_404(user_id)
@@ -313,7 +315,7 @@ def approve_staff(user_id):
 
 
 # Route to handle Rejection
-@admin_bp.route('/reject_staff/<int:user_id>', methods=['GET','POST'])
+@admin_bp.route('/<int:user_id>/reject_staff', methods=['GET','POST'])
 @role_validator('admin')
 def reject_staff(user_id):
     staff = USER.query.get_or_404(user_id)
@@ -322,3 +324,18 @@ def reject_staff(user_id):
     db.session.commit()
     flash('Staff member has been rejected and blacklisted.', 'danger')
     return redirect(request.referrer or url_for('admin.validate_staff'))
+
+
+@admin_bp.route('/<int:user_id>/delete_staff', methods=['POST'])
+@role_validator('admin')
+def delete_staff(user_id):
+    staff = TREKK.query.get(user_id)
+    existing_record = USER.query.filter_by(user_id=user_id).first()
+    USER.query.filter_by(user_id=user_id).delete()
+    if staff is not None:
+        db.session.delete(staff)
+    if existing_record is not None:
+        db.session.delete(existing_record)
+    db.session.commit()
+    flash("Staff Removed.", "info")
+    return redirect(url_for("admin.validate_staff"))

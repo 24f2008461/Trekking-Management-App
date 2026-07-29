@@ -101,7 +101,6 @@ def register():
          email=email,
          password=generate_password_hash(f_password),
          phone_number=phone_no,
-         role='user',
          is_validated=True
       )
       db.session.add(new_user)
