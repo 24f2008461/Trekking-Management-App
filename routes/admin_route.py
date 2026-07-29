@@ -210,6 +210,8 @@ def find_staff():
     return render_template("admin/staff.html", staff=staff, s=s)
 
 
+# ======================================================================================================
+# ==============================to be added to user route later====================================
 @admin_bp.route("/staff/Add_staffs" , methods=['GET','POST'])
 @role_validator("admin")
 def add_staff():
@@ -265,7 +267,7 @@ def add_staff():
             password= generate_password_hash(f_password),
             phone_number=phone_no,
             role ='staff',
-            is_validated=True,
+            is_validated=False,
             qualification=qualification
         )
         db.session.add(new_staff)
@@ -273,5 +275,50 @@ def add_staff():
         flash("Added Staff! Successfully!", "success")
         return redirect(url_for("admin.find_staff"))
     return render_template("admin/add_staff.html")
+#  =============================================================================================================           
+# =================================================================================================================
+
+@admin_bp.route("/staff/validate_staffs" , methods=['GET','POST'])
+@role_validator("admin")
+def validate_staff():
+    validation_list = USER.query.filter_by(role='staff', is_validated=False).all()
+    current_filter = "Pending"
+    
+    if request.method=='POST':
+        validation=request.form.get('validation')
+
+        if validation=='Pending':
+            validation_list = USER.query.filter( USER.role=='staff', USER.is_validated==False, USER.status.in_(['active', 'inactive'])).all()
+
+        if validation=='Approved':
+            validation_list = USER.query.filter_by(role='staff', is_validated=True).all()
             
-        
+        if validation=='Rejected':
+            validation_list = USER.query.filter_by(role='staff', status='blacklisted').all()
+            
+    return render_template(
+        "admin/validate_staff.html", validation_list=validation_list, 
+        current_filter=current_filter
+    )
+# Route to handle Approval
+@admin_bp.route('/approve_staff/<int:user_id>', methods=['GET','POST'])
+@role_validator('admin')
+def approve_staff(user_id):
+    staff = USER.query.get_or_404(user_id)
+    staff.is_validated = True
+
+    db.session.commit()
+    flash('Staff member has been approved.', 'success')
+    return redirect(request.referrer or url_for('admin.validate_staff'))
+
+
+# Route to handle Rejection
+@admin_bp.route('/reject_staff/<int:user_id>', methods=['GET','POST'])
+@role_validator('admin')
+def reject_staff(user_id):
+    staff = USER.query.get_or_404(user_id)
+    staff.is_validated = False
+    staff.status = 'blacklisted'
+    db.session.commit()
+    flash('Staff member has been rejected and blacklisted.', 'danger')
+    return redirect(request.referrer or url_for('admin.validate_staff'))
