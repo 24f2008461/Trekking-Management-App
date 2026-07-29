@@ -39,27 +39,11 @@ body {
 
 /* ------------------side-navbar-mainsite------------------------ */
 
-.fullbody .custom-sidebar{ 
-    background: var(--primary);
-    font-weight: 700;
-    font-size: 1.8rem;
-    border-right: 1px solid var(--gray-800);
-}
+.fullbody .custom-sidebar{ background: var(--primary);font-weight: 700;font-size: 1.8rem;border-right: 1px solid var(--gray-800);}
 .fullbody .custom-sidebar .nav-link:hover,
-.fullbody .nav-link.active {
-  color: #f8fafc!important;
-  background: rgba(255,255,255,.15);
-}
+.fullbody .nav-link.active {color: #f8fafc!important;background: rgba(255,255,255,.15);}
 
-.fullbody .nav-link {
-  color: rgba(0, 0, 0, 0.65) !important;
-  font-weight: 600;
-  font-size: 1.2rem;
-  padding: .4rem .8rem !important;
-  border-radius: var(--radius);
-  width: 140px;
-  margin-left: 5px;
-}
+.fullbody .nav-link {color: rgba(0, 0, 0, 0.65) !important;font-weight: 600;font-size: 1.2rem;padding: .4rem .8rem !important; border-radius: var(--radius);width: 140px;margin-left: 5px;}
 
 
 
@@ -70,42 +54,11 @@ body {
 .top-navbar .nav-box{ display: flex;align-items: center;}
 .top-navbar .navbar-nav{display: flex;flex-direction: row; justify-content: space-between; align-items: center; gap: 25px;}
 
-.top-navbar .app-title{
-  text-align: center;
-  font-size: 2.5rem;
-  color: var(--warning);
-  text-shadow: var(--text-shadow);
-  margin-left: 1rem;
-  text-decoration: none;    
-}
-.top-navbar .sidebar-toggle{
-    border-radius: 5px;
-    margin-left: 5px;
-    border: 1px solid var(--dark);
-    background: transparent;
-}
-.top-navbar .sidebar-toggle:hover{
-  background-color: var(--primary);
-}
-.navbar-nav .logout-btn {
-  background-color: var(--danger);
-  color:#fff!important;
-  border: 1px solid rgba(239,68,68,.25);
-  text-align: center;
-  font-size: 1rem;
-  width: 80px;
-  border-radius: 1.3rem;  
-}
-.navbar-nav .logout-btn:hover { 
-  border-color: transparent;
-  background-color: #fff; 
-  color: #ff0000 !important;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-
-
-
+.top-navbar .app-title{ text-align: center;font-size: 2.5rem;color: var(--warning);text-shadow: var(--text-shadow);margin-left: 1rem;text-decoration: none; }
+.top-navbar .sidebar-toggle{ border-radius: 5px;margin-left: 5px;border: 1px solid var(--dark); background: transparent;}
+.top-navbar .sidebar-toggle:hover{background-color: var(--primary);}
+.navbar-nav .logout-btn { background-color: var(--danger);color:#fff!important;border: 1px solid rgba(239,68,68,.25);text-align: center;font-size: 1rem;width: 80px;border-radius: 1.3rem;  }
+.navbar-nav .logout-btn:hover { border-color: transparent; background-color: #fff;  color: #ff0000 !important; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);}
 
 
 /*------------------------main-page-----------------------*/
@@ -231,25 +184,10 @@ body {
 
 /*-------------------tables---------------------------------*/
 
-.table-panel{
-  background: var(--primary-dark);
-  border: transparent;
-  width: 100%;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
-}
+.table-panel{background: var(--primary-dark); border: transparent; width: 100%;border-radius: var(--radius);overflow: hidden;box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);}
 .table-panel h6 {color: yellow;}
 .table-panel .table { margin-bottom: 0;}
-.table-panel .table thead th {
-  background: var(--gray-100);
-  font-weight: 600;
-  font-size: .8rem;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  color: var(--dark);
-  padding: .75rem 1rem;
-}
+.table-panel .table thead th {background: var(--gray-100);font-weight: 600;font-size: .8rem;text-transform: uppercase;letter-spacing: .5px;color: var(--dark);padding: .75rem 1rem;}
 .table-panel .table td { padding: .75rem 1rem; vertical-align: middle; font-size: .9rem; background: var(--gray-100);}
 /*------------------------charts---------------------------------------*/
 

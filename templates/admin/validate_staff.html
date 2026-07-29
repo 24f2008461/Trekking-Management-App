@@ -10,13 +10,15 @@
 
 <div class="table-panel">
     <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
-        <h6 class="mb-0 fw-bold" style="color: purple;">Validation Table</h6>
+        <h6 class="mb-0 fw-bold">Validation Table</h6>
         <form action="{{ url_for('admin.validate_staff') }}" method="POST" class="d-flex align-items-center">
         <label for="validation" class="me-2 fw-semibold">Check :</label>
         <select name="validation" id="validation" class="form-select me-2" style="width: auto;">
-            <option value="Pending" {% if current_filter == 'Pending' %}selected{% endif %}>Pending</option>
-            <option value="Approved" {% if current_filter == 'Approved' %}selected{% endif %}>Approved</option>
-            <option value="Rejected" {% if current_filter == 'Rejected' %}selected{% endif %}>Rejected</option>
+            <option value="pending" {% if current_filter == 'pending' %}selected{% endif %}>Pending</option>
+            <option value="approved" {% if current_filter == 'approved' %}selected{% endif %}>Approved</option>
+            <option value="rejected" {% if current_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+            <option value="blacklisted" {% if current_filter == 'blacklisted' %}selected{% endif %}>blacklisted</option>
+
         </select>
         <button type="submit" class="btn btn-primary">Apply</button>
         <a href="{{ url_for('admin.find_staff' ) }}" class="btn ms-2 btn-outline-danger"> Cancel</a>
@@ -35,6 +37,7 @@
         </tr>
       </thead>
       <tbody>
+     
       {% for st in validation_list %}
       <tr>
         <td>{{ st.user_id }}</td>
@@ -42,10 +45,11 @@
         <td>{{ st.fullname }}</td>
         <td>{{ st.email }}</td>
         <td>+91 {{ st.phone_number }}</td>
-        <td>
-            {% if st.status == 'blacklisted' %}
+        <td>{% if st.status == 'blacklisted' %}
+                <span class="status-badge bg-danger text-white border-danger">Blacklisted</span>
+            {% elif st.status == 'rejected' %}
                 <span class="status-badge bg-danger text-white border-danger">Rejected</span>
-            {% elif st.is_validated %} 
+            {% elif st.status == 'approved' %} 
                 <span class="status-badge bg-success text-white border-success">Approved</span>
             {% else %}
                 <span class="status-badge bg-warning text-dark border-warning">Pending</span>
@@ -53,22 +57,30 @@
         </td>
         
         <td>
-        {% if not st.is_validated and st.status != 'blacklisted' %}
+           {% if not st.is_validated and st.status != 'rejected' and st.status != 'blacklisted' %}
             <form method="POST" action="{{ url_for('admin.approve_staff', user_id=st.user_id) }}" class="d-inline">
                 <button type="submit" class="btn btn-sm btn-outline-success me-1">Approve</button>
             </form>
             <form method="POST" action="{{ url_for('admin.reject_staff', user_id=st.user_id) }}" class="d-inline" onsubmit="return confirm('Reject and blacklist this Staff member?')">
                 <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
             </form>
-        {% elif st.is_validated %}
-            <form method="POST" action="{{ url_for('admin.reject_staff', user_id=st.user_id) }}" class="d-inline" onsubmit="return confirm('Reject and blacklist this Staff member?')">
+            {% elif not st.is_validated and st.status =='rejected' %}
+            <form method="POST" action="{{ url_for('admin.blacklist_staff', user_id=st.user_id) }}" class="d-inline" onsubmit="return confirm('Reject this Staff member?')">
                 <button type="submit" class="btn btn-sm btn-outline-danger">Blacklist</button>
             </form>
-        {% elif st.status =='blacklisted'  %}
+             <form method="POST" action="{{ url_for('admin.approve_staff', user_id=st.user_id) }}" class="d-inline">
+                <button type="submit" class="btn btn-sm btn-outline-success me-1">Re-Approve</button>
+            </form>
+            {% elif st.status =='blacklisted'  %}
             <form method="POST" action="{{ url_for('admin.delete_staff', user_id=st.user_id ) }}" class="d-inline" onsubmit="return confirm('Delete the Staff member?')">
                 <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
             </form>
-        {% endif %}
+            {%  elif st.status =='approved'  %}
+             <form method="POST" action="{{ url_for('admin.blacklist_staff', user_id=st.user_id) }}" class="d-inline" onsubmit="return confirm('Blacklist this Staff member?')">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Blacklist</button>
+            </form>
+            
+            {% endif %}
         </td>
       </tr>
       {% else %}

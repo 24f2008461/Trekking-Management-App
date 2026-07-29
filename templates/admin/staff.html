@@ -34,15 +34,15 @@
         <td class="fw-semibold">{{ st.status|lower }}</td>
           <td>
             {% if st.status == 'blacklisted' %}
+                <span class="status-badge bg-danger text-white border-danger">Blacklisted</span>
+            {% elif st.status == 'rejected' %}
                 <span class="status-badge bg-danger text-white border-danger">Rejected</span>
-            {% elif st.is_validated %} 
+            {% elif st.status == 'approved' %} 
                 <span class="status-badge bg-success text-white border-success">Approved</span>
             {% else %}
                 <span class="status-badge bg-warning text-dark border-warning">Pending</span>
             {% endif %}
-        
         </td>
-       
       </tr>
       {% else %}
       <tr><td colspan="7" class="text-muted text-center"><h5>No Staff Added Yet!</h5><p>Add Staffs to get started.</p></td></tr>

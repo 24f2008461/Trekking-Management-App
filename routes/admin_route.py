@@ -81,7 +81,7 @@ def find_treks():
 @admin_bp.route("/treks/Add_Treks", methods=['GET','POST'])
 @role_validator("admin")
 def add_treks():
-    staff_list = USER.query.filter_by(role='staff', status='active').all()
+    staff_list = USER.query.filter_by(role='staff', status='approved').all()
     if request.method == 'POST':
         tname = request.form['tname'].strip()
         location = request.form['location'].strip()
@@ -146,7 +146,7 @@ def delete_treks(t_id):
 @role_validator("admin")
 def edit_treks(t_id):
     trek = TREKK.query.get_or_404(t_id)
-    staff_list = USER.query.filter_by(role="staff", status="active").all()
+    staff_list = USER.query.filter_by(role="staff", status="approved").all()
     if request.method == 'POST':
         tname = request.form['tname'].strip()
         location = request.form['location'].strip()
@@ -201,7 +201,7 @@ def edit_treks(t_id):
 @role_validator("admin")
 def find_staff():
     s = request.args.get("s", "").strip()
-    query = USER.query.filter_by(role="staff")
+    query = USER.query.filter_by(role="staff",status="approved")
     if s:
         search_filters = db.or_(
                     USER.name.ilike(f"%{s}%"),
@@ -212,7 +212,7 @@ def find_staff():
     return render_template("admin/staff.html", staff=staff, s=s)
 
 
-# ======================================================================================================
+# =================================================================================================
 # ==============================to be added to user route later====================================
 @admin_bp.route("/staff/Add_staffs" , methods=['GET','POST'])
 @role_validator("admin")
@@ -277,65 +277,80 @@ def add_staff():
         flash("Added Staff! Successfully!", "success")
         return redirect(url_for("admin.find_staff"))
     return render_template("admin/add_staff.html")
-#  =============================================================================================================           
-# =================================================================================================================
+# =============================================================================================================           
+# =============================================================================================================
 
 @admin_bp.route("/staff/validate_staffs" , methods=['GET','POST'])
 @role_validator("admin")
 def validate_staff():
     validation_list = USER.query.filter_by(role='staff', is_validated=False).all()
-    current_filter = "Pending"
+    current_filter = 'pending'
     
     if request.method=='POST':
         validation=request.form.get('validation')
 
-        if validation=='Pending':
-            validation_list = USER.query.filter( USER.role=='staff', USER.is_validated==False, USER.status.in_(['active', 'inactive'])).all()
+        if validation=='pending':
+            validation_list = USER.query.filter( USER.role=='staff', USER.status=='pending').all()
 
-        if validation=='Approved':
-            validation_list = USER.query.filter_by(role='staff', is_validated=True).all()
+        if validation=='approved':
+            validation_list = USER.query.filter(USER.role=='staff', USER.status=='approved').all()
             
-        if validation=='Rejected':
-            validation_list = USER.query.filter_by(role='staff', status='blacklisted').all()
+        if validation=='rejected':
+            validation_list = USER.query.filter(USER.role=='staff', USER.status=='rejected').all()
+
+        if validation=='blacklisted':
+            validation_list = USER.query.filter(USER.role=='staff', USER.status=='blacklisted').all()
             
-    return render_template(
-        "admin/validate_staff.html", validation_list=validation_list, 
-        current_filter=current_filter
-    )
-# Route to handle Approval
-@admin_bp.route('/<int:user_id>/approve_staff', methods=['GET','POST'])
+    return render_template("admin/validate_staff.html", validation_list=validation_list,current_filter=current_filter )
+
+
+
+@admin_bp.route('/<int:user_id>/approve_staff', methods=['POST'])
 @role_validator('admin')
 def approve_staff(user_id):
     staff = USER.query.get_or_404(user_id)
-    staff.is_validated = True
-
+    if not staff.is_validated:
+        staff.status = 'approved'
+        staff.is_validated = True
+    
     db.session.commit()
     flash('Staff member has been approved.', 'success')
     return redirect(request.referrer or url_for('admin.validate_staff'))
 
 
 # Route to handle Rejection
-@admin_bp.route('/<int:user_id>/reject_staff', methods=['GET','POST'])
+@admin_bp.route('/<int:user_id>/reject_staff', methods=['POST'])
 @role_validator('admin')
 def reject_staff(user_id):
     staff = USER.query.get_or_404(user_id)
-    staff.is_validated = False
-    staff.status = 'blacklisted'
+    if not staff.is_validated:
+        staff.status = 'rejected'
+        staff.is_validated = False
     db.session.commit()
     flash('Staff member has been rejected and blacklisted.', 'danger')
+    return redirect(request.referrer or url_for('admin.validate_staff'))
+
+@admin_bp.route('/<int:user_id>/blacklist_staff', methods=['POST'])
+@role_validator('admin')
+def blacklist_staff(user_id):
+    staff = USER.query.get_or_404(user_id)
+    staff.status = 'blacklisted'
+    staff.is_validated = False
+    db.session.commit()
+    flash('Staff member has been blacklisted.', 'danger')
     return redirect(request.referrer or url_for('admin.validate_staff'))
 
 
 @admin_bp.route('/<int:user_id>/delete_staff', methods=['POST'])
 @role_validator('admin')
 def delete_staff(user_id):
-    staff = TREKK.query.get(user_id)
-    existing_record = USER.query.filter_by(user_id=user_id).first()
-    USER.query.filter_by(user_id=user_id).delete()
+    staff = USER.query.get_or_404(user_id)
+    TREKK.query.filter_by(assigned_staff_id=user_id).update({"assigned_staff_id": None})
+
     if staff is not None:
         db.session.delete(staff)
-    if existing_record is not None:
-        db.session.delete(existing_record)
     db.session.commit()
     flash("Staff Removed.", "info")
     return redirect(url_for("admin.validate_staff"))
+
+

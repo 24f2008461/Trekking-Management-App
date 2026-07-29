@@ -118,7 +118,7 @@ def logout():
    if logged_user_id:
       logged_user = USER.query.get(logged_user_id)
       if logged_user:
-         logged_user.status='inactive'
+         logged_user.curr_status='inactive'
          db.session.commit()
    #Now clear session after setting status to inactive!
    session.clear()
