@@ -28,16 +28,30 @@ def role_validator(*roles):
 
 staff_bp = Blueprint("staff",__name__,url_prefix="/staff")
 
-@staff_bp.route("/")
+@staff_bp.route("/staff_dashboard")
 @role_validator('staff')
 def staff_dashboard():
     staff_id = session.get('user_id')
-    status = session.get('status')
-
-    assigned_treks = TREKK.query.filter_by(assigned_staff_id=staff_id).order_by(TREKK.start_date).all()
+    assigned_treks = TREKK.query.filter(TREKK.assigned_staff_id==staff_id,TREKK.status.in_(['Open','Closed'])).order_by(TREKK.start_date).limit(6)
+    assigned_open_treks = TREKK.query.filter(TREKK.assigned_staff_id==staff_id,TREKK.status.in_(['Open'])).order_by(TREKK.start_date).all()
+    
+    assigned_treks_count = len(assigned_open_treks)
     assigned_trekkers = {}
 
     for trek in assigned_treks:
         assigned_trekkers[trek.trek_id] = BOOKING.query.filter_by(trek_id=trek.trek_id, status='booked').count()
+
     
-    return render_template('staff/staff_dashboard.html', assigned_treks=assigned_treks,assigned_trekkers=assigned_trekkers)
+    total_participants = sum(t.total_slots for t in assigned_treks if t.status=='Open')
+
+    open_treks = TREKK.query.filter_by(assigned_staff_id=staff_id, status='Open').count()
+
+    return render_template('staff/staff_dashboard.html', 
+                           total_participants=total_participants,
+                           assigned_treks_count=assigned_treks_count,
+                           assigned_open_treks=assigned_open_treks,
+                           assigned_treks=assigned_treks,
+                           assigned_trekkers=assigned_trekkers,
+                           open_treks=open_treks
+                           )
+

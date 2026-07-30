@@ -47,7 +47,7 @@ class TREKK(db.Model): # trek table(entity)
     assigned_staff_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
     description = db.Column(db.Text, nullable=True)
     price = db.Column(db.Float, nullable=False) # 2000.50, 2500.40
-    status = db.Column(db.String(50), nullable=False,default="inactive" )  # active or inactive
+    status = db.Column(db.String(50), nullable=False,default="Pending" )  # Pending, Approved, Closed, & Open
     start_date = db.Column(db.Date, nullable=False) 
     end_date = db.Column(db.Date, nullable=False)
     date_of_create = db.Column(db.DateTime, default=datetime.utcnow)

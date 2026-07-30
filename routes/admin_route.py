@@ -187,7 +187,7 @@ def edit_treks(t_id):
             start_date=start_date_obj or None,
             end_date=end_date_obj or None,
             status=request.form.get('status','Pending'),
-            discription=request.form.get("description", "").strip()
+            description=request.form.get("description", "").strip()
         )
         db.session.add(updated_trek)
         db.session.commit()
