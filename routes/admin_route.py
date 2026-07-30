@@ -9,7 +9,7 @@ from models import db, USER,TREKK,BOOKING
 
 
 
-
+# ------------------------Autherization-validator----------------------
 def login_validator(func):
     @wraps(func)
     def decorated(*a, **kw):
@@ -118,7 +118,7 @@ def add_treks():
             start_date=start_date_obj,
             end_date=end_date_obj,
             status=request.form.get('status','Pending'),
-            discription=request.form.get("description", "").strip()
+            description=request.form.get("description", "").strip()
         )
 
         db.session.add(new_trek)
@@ -142,7 +142,7 @@ def delete_treks(t_id):
         return redirect(url_for("admin.find_treks"))
 
 
-@admin_bp.route("/treks/<int:t_id>/edit", methods=['GET','POST'])
+@admin_bp.route("/treks/<int:t_id>/edit_trek", methods=['GET','POST'])
 @role_validator("admin")
 def edit_treks(t_id):
     trek = TREKK.query.get_or_404(t_id)
@@ -280,7 +280,7 @@ def add_staff():
 # =============================================================================================================           
 # =============================================================================================================
 
-@admin_bp.route("/staff/validate_staffs" , methods=['GET','POST'])
+@admin_bp.route("/staff/validate_staff" , methods=['GET','POST'])
 @role_validator("admin")
 def validate_staff():
     validation_list = USER.query.filter_by(role='staff', is_validated=False).all()
@@ -354,3 +354,6 @@ def delete_staff(user_id):
     return redirect(url_for("admin.validate_staff"))
 
 
+
+
+# -----------------------------------------Manage-users-----------------------------------------------

@@ -26,7 +26,7 @@ def login():
       loged_user = USER.query.filter_by(username=uname).first()
       if loged_user and check_password_hash(loged_user.password, password):
 
-         if loged_user.status == "blacklisted":
+         if loged_user.status == "blacklisted" :
             flash("Your Account has been blacklisted. Please Contact admin!", "danger")
             return redirect(url_for("auth.login"))
 

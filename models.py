@@ -45,7 +45,7 @@ class TREKK(db.Model): # trek table(entity)
     total_slots = db.Column(db.Integer, nullable=False) 
     avl_slots = db.Column(db.Integer, nullable=False)
     assigned_staff_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
-    discription = db.Column(db.Text, nullable=True)
+    description = db.Column(db.Text, nullable=True)
     price = db.Column(db.Float, nullable=False) # 2000.50, 2500.40
     status = db.Column(db.String(50), nullable=False,default="inactive" )  # active or inactive
     start_date = db.Column(db.Date, nullable=False) 

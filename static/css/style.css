@@ -246,3 +246,17 @@ body {
   font-size: .9rem;
 }
 .btn-outline-custom:hover { background: var(--btn-primary); color: #fff; }
+
+
+/* ----------------------------------treck------------------------- */
+.trek-panel {
+  background: var(--accent);
+  padding: 1.25rem;
+  height: 100%;
+  border: 1px solid var(--accent-pale);
+ 
+  border-radius: var(--radius);
+}
+.trek-panel:hover { border-color: var(--accent-pale) ; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);}
+.trek-data { font-size: .85rem; color: var(--gray-600); line-height: 1.8; }
+.trek-title { font-weight: 600; font-size: 1.3rem; color: var(--dark); margin-bottom: .9rem; }
