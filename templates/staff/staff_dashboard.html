@@ -34,7 +34,8 @@
     <div class="trek-panel">
       <div class="d-flex justify-content-between align-items-start mb-3">
         <h5 class="trek-title mb-0">{{ t.name }}</h5>
-        <span>{{ t.status }}</span>
+
+        <span class="bg-white p-2 border rounded-3">{{ t.status }}</span>
       </div>
       <div class="trek-data">
         <div>{{ t.location }}</div>
@@ -42,9 +43,9 @@
         <div>{{ t.duration }} days</div>
         <div>{{ assigned_trekkers.get(t.trek_id, 0) }} registered · {{ t.avl_slots }} slots left of {{ t.total_slots }}</div>
       </div>
-      <div class="mt-0">
-        <span class="{{ t.difficulty|lower }} me-2">{{ t.difficulty }}</span>
-        <a href="" class="btn btn-sm btn-primary-custom float-end">Manage</a>
+      <div class="mt-2 ">
+        <span  class="bg-info p-1 border rounded-3">{{ t.difficulty }}</span>
+        <a href="" class="btn btn-sm btn-primary float-end">Manage</a>
       </div>
     </div>
   </div>

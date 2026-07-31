@@ -7,9 +7,8 @@
 </div>
 
 <div class="form-panel">
-    <div class="py-1 border-bottom d-flex justify-content-between align-items-center">
-        <h6 class="mb-0 fs-2 fw-bold" style="color: purple;">Update Treks</h6>
-        <a href="{{ url_for('admin.find_treks' ) }}" class="btn btn-sm btn-accent">cancel</a>
+    <div class="py-1 border-bottom d-flex justify-content-center align-items-center">
+        <h2 class="mb-0 fs-2 fw-bold" style="color: var(--accent-pale)">Update Trek</h2>
     </div>
     <form action="{{ url_for('admin.edit_treks', t_id=trek.trek_id) }}" method="POST">
         <div class="row py-3">
@@ -49,7 +48,7 @@
                     <select type="text" name="assigned_staff" id="assigned_staff"> 
                         <option value="">— None —</option>
                         {% for staff in staff_list %}
-                        <option value="{{ staff.user_id }}" {% if trek.assigned_staff_id == staff.trek_id %}selected{% endif %}>{{ staff.fullname }}</option>
+                        <option value="{{ staff.user_id }}" {% if trek.assigned_staff_id == staff.user_id %}selected{% endif %}>{{ staff.fullname }}</option>
                         {% endfor %}
                     </select>
                 </div class="form-group">
@@ -64,10 +63,11 @@
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select name="status" id="status" required>
-                        <option value="Pending">Pending</option>
-                        <option value="Approved" >Approved</option>
-                        <option value="Open">Open</option>
-                        <option value="Closed" >Closed</option>
+                        <option value="Pending" {% if trek.status == 'Pending' %}selected{% endif %}>Pending</option>
+                        <option value="Approved" {% if trek.status == 'Approved' %}selected{% endif %}>Approved</option>
+                        <option value="Open" {% if trek.status == 'Open' %}selected{% endif %}>Open</option>
+                        <option value="Closed" {% if trek.status == 'Closed' %}selected{% endif %}>Closed</option>
+                        <option value="Completed" {% if trek.status == 'Completed' %}selected{% endif %}>Completed</option>
                     </select>
                 </div>
             </div>
@@ -78,7 +78,7 @@
         </div>
         <div class="mt-4 d-flex gap-2 justify-content-center">
             <button type="submit" class="btn btn-accent">Update</button>
-            <!-- <a href="{{ url_for('admin.find_treks') }}" class="btn btn-outline-custom">Cancel</a> -->
+            <a href="{{ url_for('admin.find_treks' ) }}" class="btn btn-sm btn-outline-danger">cancel</a>
         </div>
     </form>
 </div>

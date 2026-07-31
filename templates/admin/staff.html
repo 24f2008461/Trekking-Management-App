@@ -9,15 +9,15 @@
 </div>
 
 <form method="GET" action="{{ url_for('admin.find_staff') }}" class="d-flex mb-3" style="max-width: 400px;">
-<input type="text" username="s" user_id="s" value="{{ s }}" class="form-control me-2" placeholder="Search by Staff Name or ID...">
-<button class="btn btn-outline-custom" type="submit">Search</button>
+  <input type="text" username="s" user_id="s" value="{{ s }}" class="form-control me-2" placeholder="Search by Staff Name or ID...">
+  <button class="btn btn-outline-custom" type="submit">Search</button>
 </form>
-<a href="{{ url_for('admin.add_staff' ) }}" class="btn btn-sm btn-accent ">add Staff</a>
+
 <div class="table-panel">
   <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
-        <h6 class="mb-0 fw-bold">Staff</h6>
-        <a href="{{ url_for('admin.validate_staff' ) }}" class="btn btn-sm btn-accent ">Validate Staff</a>
-      </div>
+      <h6 class="mb-0 fw-bold">Staff</h6>
+      <a href="{{ url_for('admin.validate_staff' ) }}" class="btn btn-sm btn-accent ">Validate Staff</a>
+  </div>
   <div>
     <table class="table">
       <thead>

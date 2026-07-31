@@ -8,7 +8,7 @@
 
 <div class="form-panel">
     <div class="py-1 border-bottom d-flex justify-content-center align-items-center">
-         <h6 class="mb-0 fs-2 fw-bold" style="color: var(--accent-pale)">Add New Treks</h6>
+         <h2 class="mb-0 fs-2 fw-bold" style="color: var(--accent-pale)">Add New Treks</h2>
     </div>
     <form action="{{ url_for('admin.add_treks') }}" method="POST">
         <div class="row py-3">
@@ -41,7 +41,7 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label for="price">(Rs)Price</label>
-                    <input type="number" name="price" id="price" min="0" step="0.01" value="0" required>
+                    <input type="number" name="price" id="price"  min="0" step="0.01" required>
                 </div>
                 <div class="form-group">
                     <label for="assigned_staff">Assigned Staff</label>
@@ -63,7 +63,7 @@
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select name="status" id="status" required>
-                        <option value="Pending">Pending</option>
+                        <option value="Pending" >Pending</option>
                         <option value="Approved">Approved</option>
                         <option value="Open">Open</option>
                         <option value="Closed">Closed</option>

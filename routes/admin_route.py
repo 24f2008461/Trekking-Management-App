@@ -147,6 +147,7 @@ def delete_treks(t_id):
 def edit_treks(t_id):
     trek = TREKK.query.get_or_404(t_id)
     staff_list = USER.query.filter_by(role="staff", status="approved").all()
+
     if request.method == 'POST':
         tname = request.form['tname'].strip()
         location = request.form['location'].strip()
@@ -173,23 +174,20 @@ def edit_treks(t_id):
 
         slots_booked = trek.total_slots - trek.avl_slots
         avl_slots_new = max(total_slots_new  - slots_booked, 0)
-
-
-        updated_trek = TREKK(
-            name=tname,
-            location=location,
-            duration = duration,
-            difficulty = request.form['difficulty'],
-            total_slots=avl_slots_new,
-            avl_slots=avl_slots_new,
-            price=price,
-            assigned_staff_id=request.form['assigned_staff'] or None,
-            start_date=start_date_obj or None,
-            end_date=end_date_obj or None,
-            status=request.form.get('status','Pending'),
-            description=request.form.get("description", "").strip()
-        )
-        db.session.add(updated_trek)
+            
+        trek.name=tname
+        trek.location=location
+        trek.duration = duration
+        trek.difficulty = request.form['difficulty']
+        trek.total_slots=avl_slots_new
+        trek.avl_slots=avl_slots_new
+        trek.price=price
+        trek.assigned_staff_id=request.form['assigned_staff'] or None
+        trek.start_date=start_date_obj or None
+        trek.end_date=end_date_obj or None
+        trek.status=request.form.get('status','Pending')
+        trek.description=request.form.get("description", "").strip()
+        
         db.session.commit()
         flash("Trek updated Successfully!" ,"success")
         return redirect(url_for('admin.find_treks'))

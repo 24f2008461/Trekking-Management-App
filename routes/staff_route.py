@@ -32,10 +32,9 @@ staff_bp = Blueprint("staff",__name__,url_prefix="/staff")
 @role_validator('staff')
 def staff_dashboard():
     staff_id = session.get('user_id')
-    assigned_treks = TREKK.query.filter(TREKK.assigned_staff_id==staff_id,TREKK.status.in_(['Open','Closed'])).order_by(TREKK.start_date).limit(6)
-    assigned_open_treks = TREKK.query.filter(TREKK.assigned_staff_id==staff_id,TREKK.status.in_(['Open'])).order_by(TREKK.start_date).all()
+    assigned_treks = TREKK.query.filter_by(assigned_staff_id=staff_id).order_by(TREKK.start_date).all()
     
-    assigned_treks_count = len(assigned_open_treks)
+    assigned_treks_count = TREKK.query.filter_by(assigned_staff_id=staff_id).order_by(TREKK.start_date).count()
     assigned_trekkers = {}
 
     for trek in assigned_treks:
@@ -49,9 +48,13 @@ def staff_dashboard():
     return render_template('staff/staff_dashboard.html', 
                            total_participants=total_participants,
                            assigned_treks_count=assigned_treks_count,
-                           assigned_open_treks=assigned_open_treks,
                            assigned_treks=assigned_treks,
                            assigned_trekkers=assigned_trekkers,
                            open_treks=open_treks
                            )
 
+@staff_bp.route("/trek/<int:t_id>")
+@role_validator('staff')
+def assigned_trek_deatails(t_id):
+    trek = TREKK.query.filter_by(assigned_trek_id=session['user_id'], trek_id=t_id).first()
+    
