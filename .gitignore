@@ -5,7 +5,7 @@ env/
 .projenv/
 
 # Byte-compiled / optimized / DLL files
-__pycashe__
+__pycashe__/
 *.py[cod]
 *$py.class
 
