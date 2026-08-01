@@ -1,22 +1,20 @@
 {% extends "base.html" %}
 {% block title %}Staff Dashboard{% endblock %}
 {% block content %}
-<div class="border rounded-3 bg-info p-3 mb-2">
+<div class="border rounded-3 bg-info p-3 mb-3  d-flex align-items-center justify-content-between">
     <h2 class="fs-2 fw-bold">{{ trek.name }}</h2>
-    <form action="">
-        
-    </form>
-</div>
-
-<div class="form-panel pb-1">
-    <div class="py-1 border-bottom d-flex align-items-center justify-content-between">
-         <h2 class="mb-1 fs-2 fw-bold" style="color: var(--accent-pale)"> Trek Information</h2>
-
-         <form action="{{ url_for('staff.assigned_trek_details' , t_id=trek.trek_id ) }}" method="POST">
+    <form action="{{ url_for('staff.assigned_trek_details' , t_id=trek.trek_id ) }}" method="POST">
             <button type="submit" name="status" value="Open" class="btn btn-success">Mark as Started</button>           
             <button type="submit" name="status" value="Closed" class="btn btn-warning">Mark as Closed</button>
             <button type="submit" name="status" value="Completed" class="btn btn-danger">Mark as Completed</button>
          </form>
+</div>
+
+<div class="form-panel pb-1 mb-3">
+    <div class="py-1 border-bottom d-flex align-items-center justify-content-between">
+         <h2 class="mb-1 fs-2 fw-bold" style="color: var(--accent-pale)"> Trek Information</h2>
+
+         
     </div>
     <form action="{{ url_for('staff.assigned_trek_details' , t_id=trek.trek_id) }}" method="POST">
         <div class="row py-3">
@@ -69,7 +67,29 @@
     </form>
 </div>
     
-<div>
-    paticipants details 
+<div class="table-panel">
+    <div  class="p-3 border-bottom d-flex justify-content-between align-items-center mt-2" >
+        <h2 class="fs-2 fw-bold p-1">Participant Details</h2>
+    </div>    
+    <table class="table">
+        <thead >
+            <tr>
+                <th>S.No</th><th>Participant Name</th><th>Email</th><th>Booking Date</th><th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ booking.user.name }}</td>      
+                <td>{{ booking.user.email }}</td>     
+                <td>{{ booking.booking_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ booking.status }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-muted text-center"><h5>No Trekker Booked this trek yet!</h5></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

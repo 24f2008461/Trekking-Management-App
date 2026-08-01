@@ -28,6 +28,9 @@ def role_validator(*roles):
 
 staff_bp = Blueprint("staff",__name__,url_prefix="/staff")
 
+
+
+
 @staff_bp.route("/staff_dashboard")
 @role_validator('staff')
 def staff_dashboard():
@@ -79,6 +82,8 @@ def assigned_trek_details(t_id):
             flash("Updated available slots!", "success")
             return redirect(url_for('staff.assigned_trek_details', t_id=trek.trek_id))
         
+        ass_trek_bookings = BOOKING.query.filter_by(trek_id=t_id).order_by(BOOKING.booking_date).all()
     return render_template("staff/trek_details.html", trek=trek)
 
-    
+
+
