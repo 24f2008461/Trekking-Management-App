@@ -355,3 +355,71 @@ def delete_staff(user_id):
 
 
 # -----------------------------------------Manage-users-----------------------------------------------
+@admin_bp.route("/user")
+@role_validator("admin")
+def find_users():
+    s = request.args.get("s", "").strip()
+    query = USER.query.filter_by(role="user",status="approved")
+    if s:
+        search_filters = db.or_(
+                    USER.name.ilike(f"%{s}%"),
+                    USER.user_id == int(s) if s.isdigit() else db.false(),
+                    )
+        query = query.filter(db.or_(search_filters))
+    user = query.order_by(USER.date_of_create.desc()).all()
+    return render_template("admin/users.html", user=user, s=s)
+
+
+@admin_bp.route("/users/validate_user" , methods=['GET','POST'])
+@role_validator("admin")
+def validate_users():
+    validation_list = USER.query.filter_by(role='user', is_validated=False).all()
+    current_filter = 'pending'
+    
+    if request.method=='POST':
+        validation=request.form.get('validation')
+
+        if validation=='pending':
+            validation_list = USER.query.filter( USER.role=='user', USER.status=='pending').all()
+
+        if validation=='approved':
+            validation_list = USER.query.filter(USER.role=='user', USER.status=='approved').all()
+
+        if validation=='blacklisted':
+            validation_list = USER.query.filter(USER.role=='user', USER.status=='blacklisted').all()
+            
+    return render_template("admin/validate_users.html", validation_list=validation_list,current_filter=current_filter )
+
+@admin_bp.route('/<int:user_id>/approve_user', methods=['POST'])
+@role_validator('admin')
+def approve_users(user_id):
+    user = USER.query.get_or_404(user_id)
+    if not user.is_validated:
+        user.status = 'approved'
+        user.is_validated = True
+    
+    db.session.commit()
+    flash('User has been approved.', 'success')
+    return redirect(request.referrer or url_for('admin.validate_users'))
+
+
+@admin_bp.route('/<int:user_id>/blacklist_user', methods=['POST'])
+@role_validator('admin')
+def blacklist_users(user_id):
+    user = USER.query.get_or_404(user_id)
+    user.status = 'blacklisted'
+    user.is_validated = False
+    db.session.commit()
+    flash('User has been blacklisted.', 'danger')
+    return redirect(request.referrer or url_for('admin.validate_users'))
+
+
+@admin_bp.route('/<int:user_id>/delete_user', methods=['POST'])
+@role_validator('admin')
+def delete_users(user_id):
+    user = USER.query.get_or_404(user_id)
+    if user is not None:
+        db.session.delete(user)
+    db.session.commit()
+    flash("User Removed.", "info")
+    return redirect(url_for("admin.validate_users"))

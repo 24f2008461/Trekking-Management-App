@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Admin | Manage Treks{% endblock %}
+{% block content %}
+<div class="page-heading d-flex justify-content-between align-items-center">
+  <div>
+    <h2>Manage Users</h2>
+    <u>Create, edit, and manage all Users </u>
+  </div>
+</div>
+
+<form method="GET" action="{{ url_for('admin.find_users') }}" class="d-flex mb-3" style="max-width: 400px;">
+  <input type="text" username="s" user_id="s" value="{{ s }}" class="form-control me-2" placeholder="Search by User Name or ID...">
+  <button class="btn btn-outline-custom" type="submit">Search</button>
+</form>
+
+<div class="table-panel">
+  <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+      <h6 class="mb-0 fw-bold">User</h6>
+      <a href="{{ url_for('admin.validate_users' ) }}" class="btn btn-sm btn-accent ">Validate Users</a>
+  </div>
+  <div>
+    <table class="table">
+      <thead>
+        <tr><th>ID</th><th>Username</th><th>Full Name</th><th>Email</th><th>Joined On</th><th>Phone</th><th>status</th><th>validation</th></tr>
+      </thead>
+      <tbody>
+      {% for st in user %}
+      <tr>
+        <td>{{ st.user_id }}</td>
+        <td class="fw-semibold">{{ st.username }}</td>
+        <td>{{ st.fullname }}</td>
+        <td>{{ st.email }}</td>
+        <td>{{ st.date_of_create }}</td>
+        <td>+91 {{ st.phone_number }}</td>
+        <td class="fw-semibold">{{ st.status|lower }}</td>
+          <td>
+            {% if st.status == 'blacklisted' %}
+                <span class="status-badge bg-danger text-white border-danger">Blacklisted</span>
+            {% elif st.status == 'approved' %} 
+                <span class="status-badge bg-success text-white border-success">Approved</span>
+            {% else %}
+                <span class="status-badge bg-warning text-dark border-warning">Pending</span>
+            {% endif %}
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="8" class="text-muted text-center"><h5>No User Approved Yet!</h5><p>Approve the Pending, Users Requests to get started.</p></td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

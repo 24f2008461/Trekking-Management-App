@@ -35,7 +35,7 @@
             <div class="list-group list-group-flush my-2" style="width: 150px;">
                 <ul class="nav flex-column">
                     {% if session.get("role") == 'admin' %}
-                    <li class="nav-item "><a class="nav-link text-dark" href=""> Users</a></li>
+                    <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.find_users' ) }}"> Users</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.find_treks') }}"> Treks</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.find_staff' ) }}"> Staff</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href=""> Bookings</a></li>
