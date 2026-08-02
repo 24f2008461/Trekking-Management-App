@@ -12,8 +12,11 @@ __pycashe__/
 #IDE / Editor
 .vscode/
 .idea/
-*.swp
-*.swo
+
 
 #Flask session
 .flask_session/
+
+
+#Database
+instance/

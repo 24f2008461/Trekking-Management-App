@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Staff Dashboard{% endblock %}
+{% block title %}Staff | Trek Details {% endblock %}
 {% block content %}
 <div class="border rounded-3 bg-info p-3 mb-3  d-flex align-items-center justify-content-between">
     <h2 class="fs-2 fw-bold">{{ trek.name }}</h2>
@@ -78,7 +78,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for booking in bookings %}
+            {% for booking in ass_trek_bookings %}
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ booking.user.name }}</td>      

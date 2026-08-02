@@ -82,8 +82,8 @@ def assigned_trek_details(t_id):
             flash("Updated available slots!", "success")
             return redirect(url_for('staff.assigned_trek_details', t_id=trek.trek_id))
         
-        ass_trek_bookings = BOOKING.query.filter_by(trek_id=t_id).order_by(BOOKING.booking_date).all()
-    return render_template("staff/trek_details.html", trek=trek)
+    ass_trek_bookings = BOOKING.query.filter_by(trek_id=t_id).order_by(BOOKING.booking_date).all()
+    return render_template("staff/trek_details.html", trek=trek, ass_trek_bookings=ass_trek_bookings)
 
 
 

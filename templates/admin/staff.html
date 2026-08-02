@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Admin | Manage Treks{% endblock %}
+{% block title %}Admin | Manage Staff{% endblock %}
 {% block content %}
 <div class="page-heading d-flex justify-content-between align-items-center">
   <div>
@@ -31,16 +31,16 @@
         <td>{{ st.fullname }}</td>
         <td>{{ st.email }}</td>
         <td>+91 {{ st.phone_number }}</td>
-        <td class="fw-semibold">{{ st.status|lower }}</td>
+        <td class="fw-semibold">{{ st.curr_status|upper }}</td>
           <td>
             {% if st.status == 'blacklisted' %}
-                <span class="status-badge bg-danger text-white border-danger">Blacklisted</span>
+                <span class="status-badge p-1 bg-danger text-white border rounded-3">Blacklisted</span>
             {% elif st.status == 'rejected' %}
-                <span class="status-badge bg-danger text-white border-danger">Rejected</span>
+                <span class="status-badge p-1 bg-danger text-white border rounded-3">Rejected</span>
             {% elif st.status == 'approved' %} 
-                <span class="status-badge bg-success text-white border-success">Approved</span>
+                <span class="status-badge p-1 bg-success text-white border rounded-3">Approved</span>
             {% else %}
-                <span class="status-badge bg-warning text-dark border-warning">Pending</span>
+                <span class="status-badge p-1 bg-warning text-white border rounded-3">Pending</span>
             {% endif %}
         </td>
       </tr>

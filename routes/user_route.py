@@ -30,7 +30,7 @@ def role_validator(*roles):
 
 
 
-
+# ==================================================================================================================================
 
 user_bp = Blueprint("user",__name__)
 
@@ -39,10 +39,23 @@ user_bp = Blueprint("user",__name__)
 @role_validator("user")
 def user_dashboard():
     u_id = session.get('user_id','')
-    avl_treks = TREKK.query.filter(TREKK.status.in_(['Open','Approved'])).order_by(TREKK.start_date).limit(6).all()
+    query = TREKK.query.filter(TREKK.status.in_(['Open','Approved']))
+
+    difficulty= request.args.get('difficulty')
+    location = request.args.get('location')
+
+    if difficulty:
+        query = query.filter(TREKK.difficulty == difficulty)
+
+    if location:
+        query = query.filter(TREKK.location == location)
+
+    avl_treks = query.order_by(TREKK.start_date).all()
+    all_avl_location = [loc[0] for loc in db.session.query(TREKK.location).distinct().all() if loc[0]]
+
     my_bookings = (
-        db.session.query(BOOKING)
-        .options(joinedload(BOOKING.trek))
+        db.session.query(BOOKING, TREKK)
+        .join(TREKK,BOOKING.trek_id == TREKK.trek_id)
         .filter(BOOKING.user_id == u_id, BOOKING.status == "Booked")
         .order_by(BOOKING.booking_date.desc()).all()
     )
@@ -53,7 +66,14 @@ def user_dashboard():
         "completed" : BOOKING.query.filter_by(user_id=u_id, status="Completed").count()
     }
 
-    return render_template("user/user_dashboard.html",avl_treks=avl_treks,my_bookings=my_bookings,my_details=my_details)
+    return render_template("user/user_dashboard.html",
+                           avl_treks=avl_treks,
+                           my_bookings=my_bookings,
+                           my_details=my_details,
+                           all_avl_location=all_avl_location
+                           )
+
+
 
 
 

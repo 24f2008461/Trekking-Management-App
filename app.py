@@ -3,10 +3,10 @@ from flask import Flask,session,g
 from werkzeug.security import generate_password_hash
 from flask import render_template
 from models import db, USER
-from routes.auth_route import auth_bp
-from routes.admin_route import admin_bp
-from routes.user_route import user_bp
-from routes.staff_route import staff_bp
+from routes import auth_bp
+from routes import admin_bp
+from routes import user_bp
+from routes import staff_bp
 # Setting directory
 cur_dir = os.path.abspath(os.path.dirname(__file__))  # current/working directory
 
@@ -49,4 +49,4 @@ app.register_blueprint(staff_bp)
 
 
 if __name__ == "__main__":
-    app.run(debug=True,port=5500)
+    app.run(debug=True)

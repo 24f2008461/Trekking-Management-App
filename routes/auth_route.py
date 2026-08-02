@@ -30,8 +30,8 @@ def login():
             flash("Your Account has been blacklisted. Please Contact admin!", "danger")
             return redirect(url_for("auth.login"))
 
-         if loged_user.status == "inactive":
-            loged_user.status = "active"
+         if loged_user.curr_status == "inactive":
+            loged_user.curr_status = "active"
 
             db.session.commit()
 
