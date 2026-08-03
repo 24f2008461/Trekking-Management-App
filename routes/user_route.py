@@ -41,8 +41,8 @@ def user_dashboard():
     u_id = session.get('user_id','')
     query = TREKK.query.filter(TREKK.status.in_(['Open','Approved']))
 
-    difficulty= request.args.get('difficulty')
-    location = request.args.get('location')
+    difficulty= request.args.get('difficulty').strip()
+    location = request.args.get('location').strip()
 
     if difficulty:
         query = query.filter(TREKK.difficulty == difficulty)
@@ -84,5 +84,24 @@ def book_trek_details(t_id):
     
     return render_template("user/book_trek_details.html", trek=trek, isbooked=bool(isbooked))
 
+@user_bp.route("/treks/<int:t_id>/book_trek", methods=["POST"])
+@role_validator("user")
+def book_trek(t_id):
+    booked_trek = TREKK.query.get_or_404(t_id)
+    if  booked_trek.status not in ("Open", "Approved"):
+        flash("Trek unavailable for Booking.", "warning")
+        return redirect(url_for("user.user_trek_detail", t_id=t_id))
+    if  booked_trek.avl_slots <= 0:
+        flash("No slots available.", "danger")
+        return redirect(url_for("user.user_trek_detail", tid=t_id))
+    if BOOKING.query.filter_by(user_id=session["user_id"], trek_id=t_id, status="Booked").first():
+        flash("Trek Already Booked for this Account.", "warning")
+        return redirect(url_for("user.user_trek_detail", t_id=t_id))
+    booking = BOOKING(user_id=session["user_id"], trek_id=t_id, status="Booked")
+    db.session.add(booking)
+    booked_trek.avl_slots -= 1
+    db.session.commit()
+    flash("Trek Booked Successfully!", "success")
+    return redirect(url_for("user.user_dashboard"))
 
 

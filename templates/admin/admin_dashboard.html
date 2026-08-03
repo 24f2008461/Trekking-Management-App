@@ -50,16 +50,16 @@
     <div class="table-panel">
       <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
         <h6 class="mb-0 fw-bold" >Recent Bookings</h6>
-        <a href="" class="btn btn-sm btn-accent">View All</a>
+        <a href="{{ url_for('admin.find_bookings' ) }}" class="btn btn-sm btn-accent">View All</a>
       </div>
       <div>
         <table class="table">
           <thead><tr><th>User</th><th>Trek</th><th>Date</th><th>Status</th></tr></thead>
           <tbody>
-          {% for booking, user, trek in bookings %}
+          {% for booking in bookings %}
           <tr>
-            <td>{{ user.full_name }}</td>
-            <td>{{ trek.name }}</td>
+            <td>{{ booking.user.fullname }}</td>
+            <td>{{ booking.trek.name }}</td>
             <td>{{ booking.booking_date.strftime('%Y-%m-%d') if booking.booking_date else '-' }}</td>
             <td>{{ booking.status}}</td>
           </tr>

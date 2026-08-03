@@ -1,44 +1,44 @@
 {% extends "base.html" %}
 {% block title %} {{ session.get('username','')}} | Booking-Trek  Details{% endblock %}
 {% block content%}
-<div class="bg-secondary rounded-3 p-2 text-white">
+<span class="p-2 rounded-3 bg-info "><a href="{{ url_for('user.user_dashboard' ) }} " class=" text-decoration-none text-dark"> Go Back to Treks</a></span>
+<div class="bg-secondary rounded-3 p-2 text-white mt-3">
     <div class="d-flex justify-content-center align-item-center mt-2" >
         <h2 ># {{ trek.name }}</h2>
     </div>
 
-    <div class="rounded-3 p-2 text-black fs-2" style="background: var(--accent);">
+    <div class="rounded-3 p-2 text-black" style="background: var(--gray-200);">
         <div class="row">
             <div class="col-md-6">
                 <div class="d-flex justify-content-between ms-2 mb-1"><strong>Location :</strong>{{trek.location}}</div>
                 <div  class="d-flex justify-content-between ms-2 mb-1"><strong>Difficulty :</strong>{{trek.difficulty}}</div>
                 <div  class="d-flex justify-content-between ms-2" mb-1><strong>Duration :</strong>{{trek.duration}}</div>
-                <div  class="d-flex justify-content-between ms-2" mb-1><strong>Start Date :</strong>{{trek.start_date}}</div>
+                <div  class="d-flex justify-content-between ms-2 mb-1"><strong>Start Date :</strong>{{trek.start_date}}</div>
                 <div  class="d-flex justify-content-between ms-2 mb-1"><strong>End Date :</strong>{{trek.end_date}}</div>
                 <div  class="d-flex justify-content-between ms-2 mb-1"><strong>Available Slots :</strong>{{trek.avl_slots}} -- remains </div>
                 {% if trek.price %}<div  class="d-flex justify-content-between ms-2 mb-1"><strong>Price:</strong> ₹{{ "%.0f"|format(trek.price) }}</div>{% endif %}
                 {% if trek.staff %}<div  class="d-flex justify-content-between ms-2 mb-1"><strong>Trek Guide :</strong> {{ trek.staff.fullname }}</div>{% endif %}
-                <div class="d-flex justify-content-between ms-2 mb-1"><strong>Status :</strong>{{trek.status}}</div>
-            </div>
-            <div class="col-md-6 d-flex justify-content-center">
-                    <img src="/static/img/hiking.png" alt="Annapurna Circuit" width="50%" height="50%" class="mt-2">
-                    {% if trek.description %}
-                    <h6 class="fw-bold">Description</h6>
-                    <p>{{ trek.description }}</p>
+                <div class="d-flex justify-content-between ms-2 mb-1"><strong>Status :</strong>{{trek.status}}</div> 
+                {% if trek.description %}
+                    <h6 class="fw-bold ms-2 mb-1">Description :</h6>
+                    <p class="small text-muted">{{ trek.description }}</p>
                 {% endif %}
             </div>
+            <!-- <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <img src="/static/img/hiking.png" alt="Annapurna Circuit" width="50%" height="50%" class="mt-2"> 
+            </div> -->
         </div>
         <div class="d-flex justify-content-end align-items-center">
             {% if trek.status in ['Open', 'Approved'] and trek.avl_slots > 0 and not isbooked %}
-                <form method="POST" action="{{ url_for('user.book_trek_details', t_id=trek.trek_id) }}">
+                <form method="POST" action="{{ url_for('user.book_trek', t_id=trek.trek_id) }}">
                     <button type="submit" class="btn btn-lg btn-primary">Book Now</button>
                 </form>
             {% elif isbooked %}
-                <h6 class="mt-2 fw-bold text-success"> Trek Booked !</h6>
-                <p class="text-muted">You have already booked this trek.</p>
-                <a href="#" class="btn btn-sm btn-outline-custom">View Bookings</a>
-            {% elif trek.available_slots <= 0 %}
+                <h6 class="mt-2  me-1 fw-bold text-danger"> Trek Already Booked !</h6>
+              
+                <a href="#" class="btn btn-lg btn-outline-custom">View Bookings</a>
+            {% elif trek.avl_slots <= 0 %}
                 <h6 class="mt-2 fw-bold text-danger">All Slots Booked!</h6>
-                <p class="text-muted">No slots available. Look for other Treks!</p>
             {% else %}
                 <h6 class="mt-2 fw-bold text-muted">Not Open</h6>
                 <p>The trek is currently {{ trek.status }}.</p>

@@ -16,13 +16,13 @@
   <div class="col-lg-4">
     <div class="data-card ">
       <div class="d-flex align-items-center justify-content-center"><div class="data-label ">Active Treks</div></div>
-      <div class="data-output">{{ my_details.total_bookings }}</div>
+      <div class="data-output">{{ my_details.active }}</div>
     </div>
   </div>
   <div class="col-lg-4">
     <div class="data-card ">
       <div class="d-flex align-items-center justify-content-center"><div class="data-label ">Compelted Treks</div></div>
-      <div class="data-output">{{ my_details.total_bookings }}</div>
+      <div class="data-output">{{ my_details.completed }}</div>
     </div>
   </div>
 </div>
@@ -33,8 +33,8 @@
               <select name="difficulty" id="difficulty"  class="form-select w-auto">
                 <option value="">-All-</option>
                 <option value="Easy" {% if request.args.get('difficulty') == 'Easy' %}selected{% endif %}>Easy</option>
-                <option value="Easy" {% if request.args.get('difficulty') == 'Moderate' %}selected{% endif %}>Moderate</option>
-                <option value="Easy" {% if request.args.get('difficulty') == 'Hard' %}selected{% endif %}>Hard</option>
+                <option value="Moderate" {% if request.args.get('difficulty') == 'Moderate' %}selected{% endif %}>Moderate</option>
+                <option value="Hard" {% if request.args.get('difficulty') == 'Hard' %}selected{% endif %}>Hard</option>
               </select>
           </div>
           <div class="d-flex align-items-center gap-2">
@@ -99,7 +99,7 @@
           {% for b,t in my_bookings %}
           <tr>
             <td>{{ t.name  }}</td>
-            <td>{{ b.booking_date.strfdate('%Y-%m-%d') }}</td>
+            <td>{{ b.booking_date.strftime('%Y-%m-%d') }}</td>
             <td>{{ b.status }}</td>
             <td> Action </td>
           </tr>

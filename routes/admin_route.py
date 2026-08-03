@@ -2,8 +2,8 @@ from flask import session, request, render_template, Blueprint, flash, url_for, 
 from functools import wraps
 from datetime import date
 from sqlalchemy import or_
-from sqlalchemy.orm import joinedload
-from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import joinedload, contains_eager
+from werkzeug.security import generate_password_hash
 from models import db, USER,TREKK,BOOKING
 
 
@@ -186,7 +186,7 @@ def edit_treks(t_id):
         trek.start_date=start_date_obj or None
         trek.end_date=end_date_obj or None
         trek.status=request.form.get('status','Pending')
-        trek.description=request.form.get("description", "").strip()
+        trek.description=request.form.get('description','')
         
         db.session.commit()
         flash("Trek updated Successfully!" ,"success")
@@ -423,3 +423,29 @@ def delete_users(user_id):
     db.session.commit()
     flash("User Removed.", "info")
     return redirect(url_for("admin.validate_users"))
+
+# ------------------------------------------Manage-Bookings--------------------------------------------
+@admin_bp.route("/bookings")
+@role_validator("admin")
+def find_bookings():
+    q = request.args.get("q", "").strip()
+    page = request.args.get('page', 1, type=int)
+    query = (db.session.query(BOOKING,USER,TREKK)
+             .join(USER,BOOKING.user_id == USER.user_id)
+             .join(TREKK,BOOKING.trek_id == TREKK.trek_id)
+             .options(
+            contains_eager(BOOKING.user), 
+            contains_eager(BOOKING.trek)
+        )
+            )
+    if q:
+        search_filters = [
+            USER.fullname.ilike(f"%{q}%"),
+            USER.username.ilike(f"%{q}%"),
+            TREKK.name.ilike(f"%{q}%")
+            ]
+        if q.isdigit():
+            search_filters.append(BOOKING.id == int(q))
+        query = query.filter(db.or_(*search_filters))
+    bookings = query.order_by(BOOKING.booking_date.desc()).paginate(page=page, per_page=10, error_out=False)
+    return render_template("admin/bookings.html", bookings=bookings, q=q)
