@@ -73,7 +73,16 @@ def user_dashboard():
                            all_avl_location=all_avl_location
                            )
 
-
+@user_bp.route("/<int:t_id>/trek")
+@role_validator("user")
+def book_trek_details(t_id):
+    trek = TREKK.query.get_or_404(t_id)
+    user_id = session.get('user_id',None)
+    isbooked = None
+    if user_id:
+        isbooked = BOOKING.query.filter_by(user_id=user_id, trek_id=t_id, status="Booked").first()
+    
+    return render_template("user/book_trek_details.html", trek=trek, isbooked=bool(isbooked))
 
 
 

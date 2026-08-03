@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block title %} {{ session.get('username','')}} | Dashboard{% endblock %}
 {% block content%}
+<div class="container-fluid">
 <div class="page-heading">
     <h2>Welcome!, {{ session.get('username','')}}</h2>
 </div>
 
-<div class="row g-5">
+<div class="row g-5 mb-4">
   <div class="col-lg-4">
     <div class="data-card ">
       <div class="d-flex align-items-center justify-content-center"><div class="data-label ">Total Bookings </div></div>
@@ -25,10 +26,10 @@
     </div>
   </div>
 </div>
-<div  class="d-flex justify-content-end mb-2 mt-5" >
-          <form class="row g-3 d-flex align-items-center" action="{{ url_for('user.user_dashboard' ) }}" method="GET">
-          <div class="col-md-4">
-              <label for="difficulty">Difficulty Level :</label>
+<div  class="d-flex justify-content-end mt-4 mb-1 " >
+          <form class="d-flex flex-wrap align-items-center gap-4" action="{{ url_for('user.user_dashboard' ) }}" method="GET">
+          <div class="d-flex align-items-center gap-2">
+              <strong for="difficulty">Difficulty Level :</strong>
               <select name="difficulty" id="difficulty"  class="form-select w-auto">
                 <option value="">-All-</option>
                 <option value="Easy" {% if request.args.get('difficulty') == 'Easy' %}selected{% endif %}>Easy</option>
@@ -36,8 +37,8 @@
                 <option value="Easy" {% if request.args.get('difficulty') == 'Hard' %}selected{% endif %}>Hard</option>
               </select>
           </div>
-          <div class="col-md-4">
-            <label for="location">Locations :</label>
+          <div class="d-flex align-items-center gap-2">
+            <strong for="location">Locations :</strong>
             <select name="location" id="location"  class="form-select w-auto">
               <option value="">-All-</option>
               {% for loc in all_avl_location %}
@@ -45,7 +46,7 @@
               {% endfor %}
             </select>
           </div>
-          <div class="col-md-4 d-flex gap-2">
+          <div class="d-flex align-items-center gap-2">
             <button type="submit" class="btn btn-sm btn-primary text-nowrap">Search</button>
             <a href="{{ url_for('user.user_dashboard') }}" class="btn btn-sm btn-secondary text-nowrap">Clear Filters</a>
          </div>
@@ -69,7 +70,7 @@
             <td>{{ t.difficulty }}</td>
             <td>{{ t.duration }} days</td>
             <td>{{ t.avl_slots }}</td>
-            <td>Action</td>
+            <td><a href="{{ url_for('user.book_trek_details', t_id=t.trek_id ) }}" class="btn btn-primary ">Book Now</a></td>
             </tr>
 
             {% else %}
@@ -112,5 +113,5 @@
         </tbody>
     </table>
 </div>
-
+</div>
 {% endblock %}

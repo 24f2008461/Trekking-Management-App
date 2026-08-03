@@ -42,11 +42,10 @@
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.admin_dashboard') }}"> Dashboard</a></li>
                     
                     {% elif session.get("role") == 'staff' %}
-                    <li class="nav-item mb-1"><a class="nav-link text-dark" href="">Dashboard</a></li>
+                    <li class="nav-item mb-1"><a class="nav-link text-dark" href="{{ url_for('staff.staff_dashboard' ) }}">Dashboard</a></li>
                     
                     {% else %}
-                    <li class="nav-item "><a class="nav-link text-dark" href=""> Dashboard</a></li>
-                    <li class="nav-item "><a class="nav-link text-dark" href=""> Explore Treks</a></li>
+                    <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('user.user_dashboard' ) }}"> Dashboard</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href=""> My Bookings</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href=""> History</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href=""> Profile</a></li>
