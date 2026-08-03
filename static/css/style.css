@@ -79,11 +79,9 @@ body {
   background-color: var(--primary-dark)
 }
 .heading-part .b1:hover {
-  
-  background: rgba(255,255,255,.15) !important;
-  color: var(--danger);
-  border-color: transparent;
-  color: var(--gray-800);
+  color: var(--danger)!important;
+  border-color: 1px solid var(--danger);
+  background: var(--danger-light);
 }
 
 .heading-part .b2:hover {
@@ -105,12 +103,18 @@ body {
   text-align: center;
   padding: 3rem 1.5rem;
 }
-.trek-join{
+.trek-join , .trek-join h3{
+  margin-top: 3rem;
   text-align: center;
+  font-weight: 700;
 }
 .trek-join a:hover{
  color: blue;
+ border: 1px solid blue;
 }
+.vertical-divider {
+        border-right: 2px solid black; /* Adjust thickness and color as needed */
+    }
 
 
 /*------------------------------------- auth --------------------------------------*/
@@ -261,3 +265,5 @@ body {
 .trek-panel:hover { border-color: var(--accent-pale) ; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);}
 .trek-data { font-size: .85rem; color: var(--gray-600); line-height: 1.8; }
 .trek-title { font-weight: 600; font-size: 1.3rem; color: var(--dark); margin-bottom: .9rem; }
+
+

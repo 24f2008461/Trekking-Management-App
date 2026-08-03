@@ -44,7 +44,7 @@ def staff_dashboard():
         assigned_trekkers[trek.trek_id] = BOOKING.query.filter_by(trek_id=trek.trek_id, status='booked').count()
 
     
-    total_participants = sum(t.total_slots for t in assigned_treks if t.status=='Open' or t.status=='Closed')
+    total_participants = sum((t.total_slots - t.avl_slots) for t in assigned_treks if t.status=='Open' or t.status=='Closed')
 
     open_treks = TREKK.query.filter_by(assigned_staff_id=staff_id, status='Open').count()
 

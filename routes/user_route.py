@@ -41,8 +41,8 @@ def user_dashboard():
     u_id = session.get('user_id','')
     query = TREKK.query.filter(TREKK.status.in_(['Open','Approved']))
 
-    difficulty= request.args.get('difficulty').strip()
-    location = request.args.get('location').strip()
+    difficulty= request.args.get('difficulty')
+    location = request.args.get('location')
 
     if difficulty:
         query = query.filter(TREKK.difficulty == difficulty)

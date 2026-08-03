@@ -2,7 +2,7 @@
 {% block title %}Staff | Trek Details {% endblock %}
 {% block content %}
 <div class="border rounded-3 bg-info p-3 mb-3  d-flex align-items-center justify-content-between">
-    <h2 class="fs-2 fw-bold">{{ trek.name }}</h2>
+    <h2 class="fs-2 fw-bold"> # {{ trek.name }}</h2>
     <form action="{{ url_for('staff.assigned_trek_details' , t_id=trek.trek_id ) }}" method="POST">
             <button type="submit" name="status" value="Open" class="btn btn-success">Mark as Started</button>           
             <button type="submit" name="status" value="Closed" class="btn btn-warning">Mark as Closed</button>
@@ -81,7 +81,7 @@
             {% for booking in ass_trek_bookings %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ booking.user.name }}</td>      
+                <td>{{ booking.user.fullname }}</td>      
                 <td>{{ booking.user.email }}</td>     
                 <td>{{ booking.booking_date.strftime('%Y-%m-%d') }}</td>
                 <td>{{ booking.status }}</td>

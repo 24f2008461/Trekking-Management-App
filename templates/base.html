@@ -21,8 +21,8 @@
                     <a href="{{ url_for('admin.admin_dashboard') }}" class="app-title">Trekk App</a>
                 
             </div>
-            <div class="navbar-nav d-flex flex-row align-items-center gap-3">
-                <span class="nav-link fw-semibold text-nowrap text-truncate" style="max-width: 200px;">{{ session.get('username','') }}</span>
+            <div class="navbar-nav d-flex flex-row align-items-center me-3">
+                <span class="nav-link fw-semibold text-nowrap text-truncate" style="max-width: 100px;">{{ session.get('username','') }}</span>
                 <a class="nav-link logout-btn" href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
     </nav>
@@ -38,7 +38,7 @@
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.find_users' ) }}"> Users</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.find_treks') }}"> Treks</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.find_staff' ) }}"> Staff</a></li>
-                    <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.find_bookings' ) }} ">Bookings   </a></li>
+                    <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.find_bookings' ) }}"> Bookings</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.admin_dashboard') }}"> Dashboard</a></li>
                     
                     {% elif session.get("role") == 'staff' %}
@@ -46,7 +46,6 @@
                     
                     {% else %}
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('user.user_dashboard' ) }}"> Dashboard</a></li>
-                    <li class="nav-item "><a class="nav-link text-dark" href=""> My Bookings</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href=""> History</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href=""> Profile</a></li>
                     {% endif %}
@@ -67,8 +66,13 @@
                 {% endfor %}
                 {% endif %}
                 {% endwith %} 
+
+                <div class="container-fluid">{% block content %}{% endblock %}</div>
                 
-                {% block content %}{% endblock %}
+                
+               <footer class="mt-5 pt-3 pb-2 text-center" style="border-top: 1px solid black ;">
+                    <small class="text-black">&copy; 2026 Trekk App | Trekking Management Application</small>
+                </footer>
             </div>
         </div> 
     </div>
