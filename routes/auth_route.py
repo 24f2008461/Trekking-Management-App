@@ -29,7 +29,9 @@ def login():
          if loged_user.status == "blacklisted" :
             flash("Your Account has been blacklisted. Please Contact admin!", "danger")
             return redirect(url_for("auth.login"))
-
+         if loged_user.status == "pending":
+            flash("Your Account has not been Approved. Please wait for admin to Verify! ", "warning")
+            return redirect(url_for('auth.login')) 
          if loged_user.curr_status == "inactive":
             loged_user.curr_status = "active"
 
@@ -58,6 +60,7 @@ def register():
       password = request.form.get('password','')
       f_password = request.form.get('fpassword','')
       phone_no = request.form.get('phone_no','').strip()
+      role = request.form.get('role','').strip()
 
       if not uname or not email or not password or not f_password or not fname:
          flash("Please fill all required the Fields!","danger")
@@ -83,7 +86,7 @@ def register():
          flash("Password must be same!", "danger")
          return redirect(url_for('auth.register'))
 
-      if len(phone_no) != 10 or not phone_no.isdigit():
+      if len(phone_no) < 10 or not phone_no.isdigit():
          flash("Invalid Phone number!", "danger")
          return redirect(url_for('auth.register'))
       
@@ -101,7 +104,9 @@ def register():
          email=email,
          password=generate_password_hash(f_password),
          phone_number=phone_no,
-         is_validated=False
+         is_validated=False,
+         role=role
+
       )
       db.session.add(new_user)
       db.session.commit()

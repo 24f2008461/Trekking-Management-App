@@ -21,7 +21,7 @@ def role_validator(*roles):
         @login_validator
         def decorated(*a, **kw):
             if session.get('role') not in roles:
-                flash("Invalid User! Access Forbiden.", "danger")
+                flash("Invalid User! Access Forbidden.", "danger")
                 return redirect(url_for('auth.main'))
             return func(*a, **kw)
         return decorated
@@ -35,7 +35,7 @@ def role_validator(*roles):
 user_bp = Blueprint("user",__name__)
 
 
-@user_bp.route("/dashboard")
+@user_bp.route("/user_dashboard")
 @role_validator("user")
 def user_dashboard():
     u_id = session.get('user_id','')

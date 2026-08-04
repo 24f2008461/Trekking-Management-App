@@ -35,6 +35,7 @@ with app.app_context():
             fullname="System Admin",
             password= generate_password_hash("admin@777"),
             phone_number=9191919191,
+            status="approved",
             role="admin",
             is_validated=True
         )

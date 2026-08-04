@@ -15,19 +15,19 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label for="tname">Trek Name </label>
-                    <input type="text" name="tname" id="tname" required>
+                    <input class="form-control" type="text" name="tname" id="tname" required>
                 </div>
                 <div class="form-group">
                     <label for="location">Location</label>
-                    <input type="text" name="location" id="location" required>
+                    <input class="form-control" type="text" name="location" id="location" required>
                 </div>
                 <div  class="form-group">
                     <label for="duration">Duration(Days)</label>
-                    <input type="number" name="duration" id="duration" required>
+                    <input class="form-control" type="number" name="duration" id="duration" required>
                 </div>
                 <div class="form-group" >
                     <label for="difficulty">Difficulty</label>
-                    <select name="difficulty" id="difficulty" required>
+                    <select class="form-control" name="difficulty" id="difficulty" required>
                         <option value="Easy">Easy</option>
                         <option value="Moderate">Moderate</option>
                         <option value="Hard">Hard</option>
@@ -35,34 +35,34 @@
                 </div>
                 <div  class="form-group">
                     <label for="total_slots">Total Slorts</label>
-                    <input type="number" name="total_slots" id="total_slots" required>
+                    <input class="form-control" type="number" name="total_slots" id="total_slots" required>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label for="price">(Rs)Price</label>
-                    <input type="number" name="price" id="price"  min="0" step="0.01" required>
+                    <input class="form-control" type="number" name="price" id="price"  min="0" step="0.01" required>
                 </div>
                 <div class="form-group">
                     <label for="assigned_staff">Assigned Staff</label>
-                    <select type="text" name="assigned_staff" id="assigned_staff"> 
+                    <select class="form-control" type="text" name="assigned_staff" id="assigned_staff"> 
                         <option value="">— None —</option>
                         {% for staff in staff_list %}
                         <option value="{{ staff.user_id }}">{{ staff.fullname }}</option>
                         {% endfor %}
                     </select>
-                </div class="form-group">
+                </div>
                 <div class="form-group">
                     <label for="start_date">Start Date</label>
-                    <input type="date" name="start_date" id="start_date" required>
+                    <input class="form-control" type="date" name="start_date" id="start_date" required>
                 </div>
                 <div class="form-group">
                     <label for="end_date">End Date</label>
-                    <input type="date" name="end_date" id="end_date" required>
+                    <input class="form-control" type="date" name="end_date" id="end_date" required>
                 </div>
                 <div class="form-group">
                     <label for="status">Status</label>
-                    <select name="status" id="status" required>
+                    <select class="form-control" name="status" id="status" required>
                         <option value="Pending" >Pending</option>
                         <option value="Approved">Approved</option>
                         <option value="Open">Open</option>
@@ -73,7 +73,7 @@
         </div>
         <div class="form-group" >
             <label for="description">Description</label>
-            <textarea name="description" id="description" rows="2" style="border-radius: 6px; border: transparent;"></textarea>
+            <textarea class="form-control" name="description" id="description" rows="2" style="border-radius: 6px; border: transparent;"></textarea>
         </div>
         <div class="mt-5 d-flex gap-2 justify-content-center">
             <button type="submit" class="btn btn-primary">Add Trek</button>
