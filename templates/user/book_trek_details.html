@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %} {{ session.get('username','')}} | Booking-Trek  Details{% endblock %}
 {% block content%}
-<span class="p-2 rounded-3 bg-info "><a href="{{ url_for('user.user_dashboard' ) }} " class=" text-decoration-none text-dark"> Go Back to Treks</a></span>
+<span class="p-2 rounded-3 bg-secondary "><a href="{{ url_for('user.user_dashboard' ) }} " class=" text-decoration-none text-white"> Go Back </a></span>
 <div class="bg-secondary rounded-3 p-2 text-white mt-3">
     <div class="d-flex justify-content-center align-item-center mt-2" >
         <h2 ># {{ trek.name }}</h2>
@@ -36,7 +36,7 @@
             {% elif isbooked %}
                 <h6 class="mt-2  me-1 fw-bold text-danger"> Trek Already Booked !</h6>
               
-                <a href="#" class="btn btn-lg btn-outline-custom">View Bookings</a>
+                <a href="{{ url_for('user.user_bookings' ) }}" class="btn btn-lg btn-outline-custom">View Bookings</a>
             {% elif trek.avl_slots <= 0 %}
                 <h6 class="mt-2 fw-bold text-danger">All Slots Booked!</h6>
             {% else %}

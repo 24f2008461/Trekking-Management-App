@@ -102,6 +102,27 @@ def book_trek(t_id):
     booked_trek.avl_slots -= 1
     db.session.commit()
     flash("Trek Booked Successfully!", "success")
-    return redirect(url_for("user.user_dashboard"))
+    return redirect(url_for("user.user_bookings"))
 
+@user_bp.route("/bookings/<int:b_id>/cancel_booking", methods=["POST"])
+@role_validator("user")
+def cancel_booking(b_id):
+    my_booking = BOOKING.query.filter_by(booking_id=b_id, user_id=session['user_id']).first()
+    if my_booking and my_booking.status == "Booked":
+        my_booking.status = "Cancelled"
+        booked_trek = TREKK.query.get(my_booking.trek_id)
+        booked_trek.avl_slots += 1
+        db.session.commit()
+        flash("Booking cancelled Successfully.", "info")
+    return redirect(url_for("user.user_bookings"))
+
+
+@user_bp.route('/user_bookings')
+@role_validator('user')
+def user_bookings():
+    my_bookings = (db.session.query(BOOKING,TREKK).
+                   join(TREKK, BOOKING.trek_id==TREKK.trek_id).
+                   filter(BOOKING.user_id==session['user_id'])
+                   .order_by(BOOKING.booking_date.desc()).all())
+    return render_template('user/my_bookings.html',my_bookings=my_bookings)
 

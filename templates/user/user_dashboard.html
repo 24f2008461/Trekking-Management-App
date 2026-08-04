@@ -59,12 +59,13 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Trek Name</th><th>Location</th><th>Difficulty</th><th>Duration</th><th>Available Slots</th><th>Action</th>
+                <th>Sl.No</th><th>Trek Name</th><th>Location</th><th>Difficulty</th><th>Duration</th><th>Available Slots</th><th>Action</th>
             </tr>
         </thead>
         <tbody>
             {% for t in avl_treks %}
             <tr>
+              <td>{{ loop.index }}</td>
             <td>{{ t.name }}</td>
             <td>{{ t.location }}</td>
             <td>{{ t.difficulty }}</td>
@@ -92,21 +93,23 @@
     <table class="table">
         <thead>
           <tr>
-            <th>Trek Name</th><th>Booking Date</th><th>Status</th><th>Action</th>
+            <th>Sl.No</th><th>Trek Name</th><th>Booking Date</th><th>Starting Date</th><th>Status</th><th>Action</th>
           </tr>
         </thead>
         <tbody>
           {% for b,t in my_bookings %}
           <tr>
+            <td>{{ loop.index }}</td>
             <td>{{ t.name  }}</td>
             <td>{{ b.booking_date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ t.start_date.strftime('%Y-%m-%d') }}</td>
             <td>{{ b.status }}</td>
-            <td> Action </td>
+            <td> <a href="#" class="btn btn-outline-custom">view details</a> </td>
           </tr>
           {% else %}
           <tr>
-            <td colspan="4" class="text-center text-muted">
-              <h5>No bookings found.</h5>
+            <td colspan="6" class="text-center text-muted">
+              <h5>No bookings Yet.</h5>
             </td>
           </tr>
           {% endfor %}
