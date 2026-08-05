@@ -137,3 +137,4 @@ def trek_history():
 
 
     return render_template('user/trek_history.html', trek_history=trek_history)
+

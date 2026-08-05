@@ -45,7 +45,7 @@ def admin_dashboard():
         'staffs' : USER.query.filter_by(role="staff").count(),
         'avl_treks' :TREKK.query.filter_by(status="Open").count(),
         'completed_treks' : TREKK.query.filter_by(status="Completed").count(),
-        'bookings' :BOOKING.query.count()   
+        'bookings' :BOOKING.query.filter(BOOKING.status.in_(['Booked','Completed'])).count()   
     }
 
     bookings = (

@@ -9,7 +9,7 @@
     <table class="table">
         <thead>
           <tr>
-            <th>Sl.No</th><th>Trek Name</th><th>Duration Dates</th><th>Completed Date</th><th>Status</th><th>Action</th>
+            <th>Sl.No</th><th>Trek Name</th><th>Duration Dates</th><th>Completed Date</th><th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -20,19 +20,10 @@
             <td>{{ t.start_date.strftime('%Y-%m-%d')}} -to- {{t.end_date.strftime('%Y-%m-%d')}}</td>
             <td>{{ t.end_date.strftime('%Y-%m-%d') }}</td>
             <td>{{ b.status }}</td>
-            <td> 
-                {% if b.status == 'Completed' or 'Cancelled' %}
-                <div></div>
-                <form method="POST" action="{{ url_for('user.cancel_booking', b_id=b.booking_id) }}" class="d-inline"
-                        onsubmit="return confirm('Cancel this booking?')">
-                    <button class="btn btn-sm btn-outline-danger">Delete</button>
-                </form>
-                {% else %}—{% endif %} 
-            </td>
           </tr>
           {% else %}
           <tr>
-            <td colspan="6" class="text-center text-muted">
+            <td colspan="5" class="text-center text-muted">
               <h5>No bookings Yet!.</h5>
             </td>
           </tr>

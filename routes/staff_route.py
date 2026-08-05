@@ -69,9 +69,19 @@ def assigned_trek_details(t_id):
             curr_status = request.form.get('status').strip()
             if curr_status in ['Open', 'Closed', 'Completed']:
                 trek.status = curr_status
+                if curr_status == "Completed":
+                    new_booking_status = "Completed"
+                elif curr_status == "Closed":
+                    new_booking_status = "Booked"
+                else:
+                    new_booking_status = "Booked"
+
+                BOOKING.query.filter_by(trek_id=trek.trek_id,status="Booked").update({"status": new_booking_status})
+
                 db.session.commit()
                 flash(f"Trek Status : {curr_status} ", "success")
             return redirect(url_for("staff.staff_dashboard"))
+        
         if 'avl_slots' in request.form:
             avl_slots = request.form.get('avl_slots')
             if int(avl_slots) > int(trek.total_slots):
@@ -82,7 +92,7 @@ def assigned_trek_details(t_id):
             flash("Updated available slots!", "success")
             return redirect(url_for('staff.assigned_trek_details', t_id=trek.trek_id))
         
-    ass_trek_bookings = BOOKING.query.filter_by(trek_id=t_id).order_by(BOOKING.booking_date).all()
+    ass_trek_bookings = BOOKING.query.filter_by(trek_id=t_id,status="Booked").order_by(BOOKING.booking_date).all()
     return render_template("staff/trek_details.html", trek=trek, ass_trek_bookings=ass_trek_bookings)
 
 
