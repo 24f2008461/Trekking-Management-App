@@ -97,3 +97,34 @@ def assigned_trek_details(t_id):
 
 
 
+@staff_bp.route("/profile", methods=["GET", "POST"])
+@role_validator("staff")
+def update_profile():
+    staff = USER.query.get(session["user_id"])
+    if request.method == "POST":
+        fullname = request.form["fullname"].strip()
+        email = request.form["email"].strip()
+        phone_number = request.form.get("phone_number", "").strip()
+        qualification = request.form.get("qualification", "").strip()
+        
+        if not fullname or not email:
+            flash("Full name and email required.", "danger")
+            return redirect(url_for("user.update_profile"))
+        if "@" not in email or "." not in email:
+            flash("Invalid Email format.", "danger")
+            return redirect(url_for("user.update_profile"))
+            
+        is_email_existing = USER.query.filter(USER.email == email, USER.user_id != USER.user_id).first()
+        if is_email_existing:
+            flash("Email already exists for another staff.", "danger")
+            return redirect(url_for("staff.update_profile"))
+            
+        staff.fullname = fullname
+        staff.email = email
+        staff.phone_number = phone_number
+        staff.qualification = qualification
+       
+        db.session.commit()
+        flash("Staff Profile Updated.", "success")
+        return redirect(url_for("staff.update_profile"))
+    return render_template("staff/update_profile.html", staff=staff)

@@ -138,3 +138,34 @@ def trek_history():
 
     return render_template('user/trek_history.html', trek_history=trek_history)
 
+@user_bp.route("/profile", methods=["GET", "POST"])
+@role_validator("user")
+def update_profile():
+    user = USER.query.get(session["user_id"])
+    if request.method == "POST":
+        fullname = request.form["fullname"].strip()
+        email = request.form["email"].strip()
+        phone_number = request.form.get("phone_number", "").strip()
+        qualification = request.form.get("qualification", "").strip()
+        
+        if not fullname or not email:
+            flash("Full name and email required.", "danger")
+            return redirect(url_for("user.update_profile"))
+        if "@" not in email or "." not in email:
+            flash("Invalid Email format.", "danger")
+            return redirect(url_for("user.update_profile"))
+            
+        is_email_existing = USER.query.filter(USER.email == email, USER.user_id != USER.user_id).first()
+        if is_email_existing:
+            flash("Email already exists for another user.", "danger")
+            return redirect(url_for("user.update_profile"))
+            
+        user.fullname = fullname
+        user.email = email
+        user.phone_number = phone_number
+        user.qualification = qualification
+       
+        db.session.commit()
+        flash("User Profile Updated.", "success")
+        return redirect(url_for("user.update_profile"))
+    return render_template("user/update_profile.html", user=user)

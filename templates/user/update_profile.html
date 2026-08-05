@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %} {{ user.username }} | Update Profile {% endblock %}
+{% block content %}
+<div class="page-heading">
+  <h2>Update Profile</h2>
+  <u>Update Profile of {{ user.username }} </u>
+</div>
+
+<div class="form-panel w-50">
+    <div class="py-1 border-bottom d-flex justify-content-center align-items-center">
+        <h2 class="mb-0 fs-2 fw-bold" style="color: var(--accent-pale)">Update Profile</h2>
+    </div>
+    <form action="{{ url_for('user.update_profile') }}" method="POST">
+        <div class="row py-3">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="tname">Full Name</label>
+                    <input type="text" name="fullname" id="fullname" value="{{ user.username }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Email</label>
+                    <input type="email" name="email" id="email" value="{{ user.email }}" required>
+                </div>
+                <div  class="form-group">
+                    <label for="duration">Phone Number</label>
+                    <input type="text" name="phone_number" id="phone_number" value="{{ user.phone_number }}" required maxlength="10">
+                </div>
+                
+                <div class="form-group" >
+                    <label for="Qualification">Qualification</label>
+                    <textarea name="Qualification" id="Qualification" rows="2" style="border-radius: 6px; border: transparent;" >{{ user.Qualification  }}</textarea>
+                </div>
+                <div class="mt-4 d-flex gap-2 justify-content-center">
+                    <button type="submit" class="btn btn-accent">Update</button>
+                    <a href="{{ url_for('admin.find_treks' ) }}" class="btn btn-sm btn-outline-danger">cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

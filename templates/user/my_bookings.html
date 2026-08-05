@@ -24,7 +24,7 @@
             <td> 
                 {% if b.status == 'Booked' %}
                 <div></div>
-                <a href="#" class="btn btn-outline-custom me-2">view details</a>
+                <a href="{{ url_for('user.book_trek_details', t_id=t.trek_id  ) }}" class="btn btn-outline-custom me-2">view details</a>
                 <form method="POST" action="{{ url_for('user.cancel_booking', b_id=b.booking_id) }}" class="d-inline"
                         onsubmit="return confirm('Cancel this booking?')">
                     <button class="btn btn-sm btn-outline-danger">Cancel</button>
