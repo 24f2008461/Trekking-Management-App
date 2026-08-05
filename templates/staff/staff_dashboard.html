@@ -41,7 +41,7 @@
         <div>{{ t.location }}</div>
         <div>{{ t.start_date or 'Not-Assigned' }} — {{ t.end_date or 'Not-Assigned' }}</div>
         <div>{{ t.duration }} days</div>
-        <div>{{ assigned_trekkers.get(t.trek_id, 0) }} registered · {{ t.avl_slots }} slots left of {{ t.total_slots }}</div>
+        <div>{{ booked_trekkers.get(t.trek_id, 0) }} registered · {{ t.avl_slots }} slots left of {{ t.total_slots }}</div>
       </div>
       <div class="mt-2 ">
         <span  class="bg-info p-1 border rounded-3">{{ t.difficulty }}</span>

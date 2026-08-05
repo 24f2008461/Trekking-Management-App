@@ -104,7 +104,7 @@
             <td>{{ b.booking_date.strftime('%Y-%m-%d') }}</td>
             <td>{{ t.start_date.strftime('%Y-%m-%d') }}</td>
             <td>{{ b.status }}</td>
-            <td> <a href="#" class="btn btn-outline-custom">view details</a> </td>
+            <td> <a href="{{ url_for('user.book_trek_details', t_id=t.trek_id  ) }}" class="btn btn-outline-custom">view details</a> </td>
           </tr>
           {% else %}
           <tr>

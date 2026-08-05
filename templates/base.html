@@ -47,7 +47,7 @@
                     {% else %}
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('user.user_dashboard' ) }}"> Dashboard</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('user.user_bookings' ) }}"> My Bookings</a></li>
-                    <li class="nav-item "><a class="nav-link text-dark" href=""> History</a></li>
+                    <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('user.trek_history' ) }}"> History</a></li>
                     <li class="nav-item "><a class="nav-link text-dark" href=""> Profile</a></li>
                     {% endif %}
                 </ul>

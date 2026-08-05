@@ -38,10 +38,10 @@ def staff_dashboard():
     assigned_treks = TREKK.query.filter(TREKK.assigned_staff_id == staff_id,TREKK.status.in_(['Approved', 'Open', 'Closed'])).order_by(TREKK.start_date).all()
     
     assigned_treks_count = TREKK.query.filter(TREKK.assigned_staff_id == staff_id,TREKK.status.in_(['Approved', 'Open', 'Closed'])).order_by(TREKK.start_date).count()
-    assigned_trekkers = {}
+    booked_trekkers = {}
 
     for trek in assigned_treks:
-        assigned_trekkers[trek.trek_id] = BOOKING.query.filter_by(trek_id=trek.trek_id, status='booked').count()
+        booked_trekkers[trek.trek_id] = BOOKING.query.filter_by(trek_id=trek.trek_id, status='Booked').count()
 
     
     total_participants = sum((t.total_slots - t.avl_slots) for t in assigned_treks if t.status=='Open' or t.status=='Closed')
@@ -52,7 +52,7 @@ def staff_dashboard():
                            total_participants=total_participants,
                            assigned_treks_count=assigned_treks_count,
                            assigned_treks=assigned_treks,
-                           assigned_trekkers=assigned_trekkers,
+                           booked_trekkers=booked_trekkers,
                            open_treks=open_treks
                            )
 

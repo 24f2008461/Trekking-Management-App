@@ -126,3 +126,14 @@ def user_bookings():
                    .order_by(BOOKING.booking_date.desc()).all())
     return render_template('user/my_bookings.html',my_bookings=my_bookings)
 
+@user_bp.route('/trek_history')
+@role_validator('user')
+def trek_history():
+
+    trek_history = (db.session.query(BOOKING,TREKK)
+                    .join(TREKK,BOOKING.trek_id==TREKK.trek_id)
+                    .filter(BOOKING.user_id==session['user_id'],BOOKING.status.in_(['Completed','Cancelled']))
+                    .order_by(BOOKING.booking_date.desc()).all())
+
+
+    return render_template('user/trek_history.html', trek_history=trek_history)
