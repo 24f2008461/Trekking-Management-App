@@ -69,8 +69,7 @@ class BOOKING(db.Model): #booking table(entity)
     trek_id = db.Column(db.Integer, db.ForeignKey('trek.trek_id'), nullable=False)
     booking_date = db.Column(db.DateTime, default=datetime.utcnow)
     status = db.Column(db.String(40), nullable=False, default="pending") # Booked or Canceled or Completed
-    notes = db.Column(db.String(200), nullable=True)
-
+    
     def __repr__(self):
         return f"<BOOKING {self.booking_id}>"
 

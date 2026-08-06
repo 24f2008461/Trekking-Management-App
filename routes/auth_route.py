@@ -125,7 +125,7 @@ def logout():
       if logged_user:
          logged_user.curr_status='inactive'
          db.session.commit()
-   #Now clear session after setting status to inactive!
+   
    session.clear()
    flash("Logged Out!" ,"info")
    return redirect(url_for('auth.main'))

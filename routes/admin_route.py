@@ -236,7 +236,7 @@ def validate_staff():
 
 
 
-@admin_bp.route('/<int:user_id>/approve_staff', methods=['POST'])
+@admin_bp.route('/staff/<int:user_id>/approve_staff', methods=['POST'])
 @role_validator('admin')
 def approve_staff(user_id):
     staff = USER.query.get_or_404(user_id)
@@ -250,7 +250,7 @@ def approve_staff(user_id):
 
 
 # Route to handle Rejection
-@admin_bp.route('/<int:user_id>/reject_staff', methods=['POST'])
+@admin_bp.route('/staff/<int:user_id>/reject_staff', methods=['POST'])
 @role_validator('admin')
 def reject_staff(user_id):
     staff = USER.query.get_or_404(user_id)
@@ -261,7 +261,7 @@ def reject_staff(user_id):
     flash('Staff member has been rejected and blacklisted.', 'danger')
     return redirect(request.referrer or url_for('admin.validate_staff'))
 
-@admin_bp.route('/<int:user_id>/blacklist_staff', methods=['POST'])
+@admin_bp.route('/staff/<int:user_id>/blacklist_staff', methods=['POST'])
 @role_validator('admin')
 def blacklist_staff(user_id):
     staff = USER.query.get_or_404(user_id)
@@ -272,7 +272,7 @@ def blacklist_staff(user_id):
     return redirect(request.referrer or url_for('admin.validate_staff'))
 
 
-@admin_bp.route('/<int:user_id>/delete_staff', methods=['POST'])
+@admin_bp.route('/staff/<int:user_id>/delete_staff', methods=['POST'])
 @role_validator('admin')
 def delete_staff(user_id):
     staff = USER.query.get_or_404(user_id)
@@ -303,7 +303,7 @@ def find_users():
     return render_template("admin/users.html", user=user, s=s)
 
 
-@admin_bp.route("/users/validate_user" , methods=['GET','POST'])
+@admin_bp.route("/user/validate_user" , methods=['GET','POST'])
 @role_validator("admin")
 def validate_users():
     validation_list = USER.query.filter_by(role='user', is_validated=False).all()
@@ -323,7 +323,7 @@ def validate_users():
             
     return render_template("admin/validate_users.html", validation_list=validation_list,current_filter=current_filter )
 
-@admin_bp.route('/<int:user_id>/approve_user', methods=['POST'])
+@admin_bp.route('/user/<int:user_id>/approve_user', methods=['POST'])
 @role_validator('admin')
 def approve_users(user_id):
     user = USER.query.get_or_404(user_id)
@@ -336,7 +336,7 @@ def approve_users(user_id):
     return redirect(request.referrer or url_for('admin.validate_users'))
 
 
-@admin_bp.route('/<int:user_id>/blacklist_user', methods=['POST'])
+@admin_bp.route('/user/<int:user_id>/blacklist_user', methods=['POST'])
 @role_validator('admin')
 def blacklist_users(user_id):
     user = USER.query.get_or_404(user_id)
@@ -347,7 +347,7 @@ def blacklist_users(user_id):
     return redirect(request.referrer or url_for('admin.validate_users'))
 
 
-@admin_bp.route('/<int:user_id>/delete_user', methods=['POST'])
+@admin_bp.route('/user/<int:user_id>/delete_user', methods=['POST'])
 @role_validator('admin')
 def delete_users(user_id):
     user = USER.query.get_or_404(user_id)

@@ -32,7 +32,7 @@ def role_validator(*roles):
 
 # ==================================================================================================================================
 
-user_bp = Blueprint("user",__name__)
+user_bp = Blueprint("user",__name__,url_prefix="/user")
 
 
 @user_bp.route("/user_dashboard")
