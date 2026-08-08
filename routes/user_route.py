@@ -39,7 +39,7 @@ user_bp = Blueprint("user",__name__,url_prefix="/user")
 @role_validator("user")
 def user_dashboard():
     u_id = session.get('user_id','')
-    query = TREKK.query.filter(TREKK.status.in_(['Open','Approved']))
+    query = TREKK.query.filter(TREKK.status.in_(['Open']))
 
     difficulty= request.args.get('difficulty')
     location = request.args.get('location')

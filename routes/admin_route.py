@@ -225,9 +225,6 @@ def validate_staff():
 
         if validation=='approved':
             validation_list = USER.query.filter(USER.role=='staff', USER.status=='approved').all()
-            
-        if validation=='rejected':
-            validation_list = USER.query.filter(USER.role=='staff', USER.status=='rejected').all()
 
         if validation=='blacklisted':
             validation_list = USER.query.filter(USER.role=='staff', USER.status=='blacklisted').all()
@@ -246,19 +243,6 @@ def approve_staff(user_id):
     
     db.session.commit()
     flash('Staff member has been approved.', 'success')
-    return redirect(request.referrer or url_for('admin.validate_staff'))
-
-
-# Route to handle Rejection
-@admin_bp.route('/staff/<int:user_id>/reject_staff', methods=['POST'])
-@role_validator('admin')
-def reject_staff(user_id):
-    staff = USER.query.get_or_404(user_id)
-    if not staff.is_validated:
-        staff.status = 'rejected'
-        staff.is_validated = False
-    db.session.commit()
-    flash('Staff member has been rejected and blacklisted.', 'danger')
     return redirect(request.referrer or url_for('admin.validate_staff'))
 
 @admin_bp.route('/staff/<int:user_id>/blacklist_staff', methods=['POST'])

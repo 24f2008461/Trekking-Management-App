@@ -37,7 +37,7 @@ class USER(UserMixin, db.Model): # user table(entity)
 class TREKK(db.Model): # trek table(entity)
 
     __tablename__ = 'trek'
-    trek_id = db.Column(db.Integer,primary_key=True)
+    trek_id = db.Column(db.Integer,primary_key=True, autoincrement=True)
     name = db.Column(db.String(150), nullable=False)
     difficulty = db.Column(db.String(50), nullable=False) # easy , moderate or hard
     duration = db.Column(db.String(50), nullable=False) # '2 days' or '5 days'
@@ -47,7 +47,7 @@ class TREKK(db.Model): # trek table(entity)
     assigned_staff_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
     description = db.Column(db.Text, nullable=True)
     price = db.Column(db.Float, nullable=False) # 2000.50, 2500.40
-    status = db.Column(db.String(50), nullable=False,default="Pending" )  # Pending, Approved, Closed, & Open
+    status = db.Column(db.String(50), nullable=False,default="Pending" )  # Pending, Approved, Closed, Open & Completed
     start_date = db.Column(db.Date, nullable=False) 
     end_date = db.Column(db.Date, nullable=False)
     date_of_create = db.Column(db.DateTime, default=datetime.utcnow)
@@ -64,7 +64,7 @@ class TREKK(db.Model): # trek table(entity)
 class BOOKING(db.Model): #booking table(entity)
 
     __tablename__ = 'booking'
-    booking_id = db.Column(db.Integer, primary_key=True)
+    booking_id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     trek_id = db.Column(db.Integer, db.ForeignKey('trek.trek_id'), nullable=False)
     booking_date = db.Column(db.DateTime, default=datetime.utcnow)

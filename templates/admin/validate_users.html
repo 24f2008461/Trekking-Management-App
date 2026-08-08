@@ -53,19 +53,19 @@
             <form method="POST" action="{{ url_for('admin.approve_users', user_id=st.user_id) }}" class="d-inline">
                 <button type="submit" class="btn btn-sm btn-outline-success me-1">Approve</button>
             </form>
-            <form method="POST" action="{{ url_for('admin.blacklist_users', user_id=st.user_id) }}" class="d-inline" onsubmit="return confirm('Reject this Staff member?')">
+            <form method="POST" action="{{ url_for('admin.blacklist_users', user_id=st.user_id) }}" class="d-inline" onsubmit="return confirm('Blacklist this User?')">
                 <button type="submit" class="btn btn-sm btn-outline-danger">Blacklist</button>
             </form>
              
             {% elif st.status == 'blacklisted'  %}
-            <form method="POST" action="{{ url_for('admin.delete_users', user_id=st.user_id ) }}" class="d-inline" onsubmit="return confirm('Delete the Staff member?')">
+            <form method="POST" action="{{ url_for('admin.delete_users', user_id=st.user_id ) }}" class="d-inline" onsubmit="return confirm('Delete the User?')">
                 <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
             </form>
-            <form method="POST" action="{{ url_for('admin.approve_users', user_id=st.user_id) }}" class="d-inline">
+            <form method="POST" action="{{ url_for('admin.approve_users', user_id=st.user_id) }}" class="d-inline" onsubmit="return confirm('Re-Approve this User?')">
                 <button type="submit" class="btn btn-sm btn-outline-success me-1">Re-Approve</button>
             </form>
             {%  elif st.status == 'approved'  %}
-             <form method="POST" action="{{ url_for('admin.blacklist_users', user_id=st.user_id) }}" class="d-inline" onsubmit="return confirm('Blacklist this Staff member?')">
+             <form method="POST" action="{{ url_for('admin.blacklist_users', user_id=st.user_id) }}" class="d-inline" onsubmit="return confirm('Blacklist this User?')">
                 <button type="submit" class="btn btn-sm btn-outline-danger">Blacklist</button>
             </form>
             {% endif %}
