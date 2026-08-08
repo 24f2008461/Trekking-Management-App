@@ -15,20 +15,20 @@
             <div class="col-lg-12">
                 <div class="form-group">
                     <label for="tname">Full Name</label>
-                    <input type="text" name="fullname" id="fullname" value="{{ staff.username }}" required>
+                    <input type="text" name="fullname" id="fullname" class="form-control" value="{{ staff.username }}" required>
                 </div>
                 <div class="form-group">
                     <label for="location">Email</label>
-                    <input type="email" name="email" id="email" value="{{ staff.email }}" required>
+                    <input type="email" name="email" id="email" class="form-control" value="{{ staff.email }}" required>
                 </div>
                 <div  class="form-group">
                     <label for="duration">Phone Number</label>
-                    <input type="text" name="phone_number" id="phone_number" value="{{ staff.phone_number }}" required maxlength="10">
+                    <input type="text" name="phone_number" id="phone_number" class="form-control" value="{{ staff.phone_number }}" required maxlength="10">
                 </div>
                 
                 <div class="form-group" >
                     <label for="Qualification">Qualification</label>
-                    <textarea name="Qualification" id="Qualification" rows="2" style="border-radius: 6px; border: transparent;" required >{{ staff.Qualification  }}</textarea>
+                    <textarea name="Qualification" id="Qualification" rows="2"  class="form-control "style="border-radius: 6px; border: transparent;" required >{{ staff.Qualification  }}</textarea>
                 </div>
                 <div class="mt-4 d-flex gap-2 justify-content-center">
                     <button type="submit" class="btn btn-accent">Update</button>

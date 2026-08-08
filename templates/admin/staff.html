@@ -21,7 +21,7 @@
   <div>
     <table class="table">
       <thead>
-        <tr><th>ID</th><th>Username</th><th>Full Name</th><th>Email</th><th>Phone</th><th>status</th><th>validation</th></tr>
+        <tr><th>ID</th><th>Username</th><th>Full Name</th><th>Email</th><th>Joined On</th><th>Phone</th><th>status</th><th>validation</th></tr>
       </thead>
       <tbody>
       {% for st in staff %}
@@ -30,6 +30,7 @@
         <td class="fw-semibold">{{ st.username }}</td>
         <td>{{ st.fullname }}</td>
         <td>{{ st.email }}</td>
+         <td>{{ st.date_of_create.strftime('%Y-%m-%d') if st.date_of_create else '-' }}</td>
         <td>+91 {{ st.phone_number }}</td>
         <td class="fw-semibold">{{ st.curr_status|upper }}</td>
           <td>
@@ -45,7 +46,7 @@
         </td>
       </tr>
       {% else %}
-      <tr><td colspan="7" class="text-muted text-center"><h5>No Staff Approved Yet!</h5><p>Approve the Pending, Staffs Requests to get started.</p></td></tr>
+      <tr><td colspan="8" class="text-muted text-center"><h5>No Staff Approved Yet!</h5><p>Approve the Pending, Staffs Requests to get started.</p></td></tr>
       {% endfor %}
       </tbody>
     </table>
