@@ -63,7 +63,7 @@ body {
 
 /*------------------------main-page-----------------------*/
 .heading-part{
-  background-color: var(--accent)!important;
+  background-color: var(--primary-light)!important;
   text-align: center;
   padding: 2rem;
 }
@@ -78,6 +78,7 @@ body {
   color: purple;
   background-color: var(--primary-dark)
 }
+.heading-part .b1 , .heading-part .b2 { border: transparent;}
 .heading-part .b1:hover {
   color: var(--danger)!important;
   border-color: 1px solid var(--danger);

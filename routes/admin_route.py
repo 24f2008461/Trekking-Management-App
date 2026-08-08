@@ -41,8 +41,8 @@ admin_bp = Blueprint("admin", __name__, url_prefix='/admin')
 def admin_dashboard():
     app_data = {
         'treks': TREKK.query.count(),
-        'users' : USER.query.filter_by(role='user').count(),
-        'staffs' : USER.query.filter_by(role="staff").count(),
+        'users' : USER.query.filter_by(role='user',status='approved').count(),
+        'staffs' : USER.query.filter_by(role="staff",status='approved').count(),
         'avl_treks' :TREKK.query.filter_by(status="Open").count(),
         'completed_treks' : TREKK.query.filter_by(status="Completed").count(),
         'bookings' :BOOKING.query.filter(BOOKING.status.in_(['Booked','Completed'])).count()   

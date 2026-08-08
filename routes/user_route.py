@@ -50,7 +50,7 @@ def user_dashboard():
     if location:
         query = query.filter(TREKK.location == location)
 
-    avl_treks = query.order_by(TREKK.start_date).all()
+    avl_treks = query.filter(TREKK.status=='Open').order_by(TREKK.start_date).all()
     all_avl_location = [loc[0] for loc in db.session.query(TREKK.location).distinct().all() if loc[0]]
 
     my_bookings = (
