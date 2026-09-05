@@ -86,7 +86,7 @@ def assigned_trek_details(t_id):
             avl_slots = request.form.get('avl_slots')
             if int(avl_slots) > int(trek.total_slots):
                 flash("Invalid Input, Available Slots must to less than Total Slots!", "danger")
-                return redirect(url_for("staff.staff_dashboard"))
+                return redirect(url_for("staff.assigned_trek_details", t_id=trek.trek_id))
             trek.avl_slots = avl_slots
             db.session.commit()
             flash("Updated available slots!", "success")
@@ -109,10 +109,10 @@ def update_profile():
         
         if not fullname or not email:
             flash("Full name and email required.", "danger")
-            return redirect(url_for("user.update_profile"))
+            return redirect(url_for("staff.update_profile"))
         if "@" not in email or "." not in email:
             flash("Invalid Email format.", "danger")
-            return redirect(url_for("user.update_profile"))
+            return redirect(url_for("staff.update_profile"))
             
         is_email_existing = USER.query.filter(USER.email == email, USER.user_id != USER.user_id).first()
         if is_email_existing:
