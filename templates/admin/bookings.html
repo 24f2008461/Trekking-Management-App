@@ -9,7 +9,7 @@
 </div>
 
 <form method="GET" action="{{ url_for('admin.find_bookings') }}" class="d-flex mb-3" style="max-width: 400px;">
-    <input type="text" name="t" value="{{ t }}" class="form-control me-2" placeholder="Search Bookings by Trek, Username ,Fullname ...">
+    <input type="text" name="q" value="{{ q }}" class="form-control me-2" placeholder="Search Bookings by Trek, Username ,Fullname ...">
     <button class="btn btn-outline-custom" type="submit">Search</button>
 </form>
 
@@ -38,11 +38,21 @@
   </div>
    <div class="mt-3 d-flex justify-content-center">
             {% if bookings.has_prev %}
-                <a href="{{ url_for('admin.find_bookings', q=q, page=bookings.prev_num) }}" class="btn btn-outline-primary me-2">Previous</a>
+                <a href="{{ url_for('admin.find_bookings', page=bookings.prev_num) }}" class="btn btn-primary me-2"> <-- </a>
             {% endif %}
-            
+                {% for page_num in bookings.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+            {% if page_num %}
+                {% if page_num == bookings.page %}
+                    <span class="btn btn-secondary me-2">{{ page_num }}</span>
+                {% else %}
+                    <a href="{{ url_for('admin.find_bookings', page=page_num) }}" class="btn me-2">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                <span class="me-2 text-muted">....</span>
+            {% endif %}
+        {% endfor %}
             {% if bookings.has_next %}
-                <a href="{{ url_for('admin.find_bookings', q=q, page=bookings.next_num) }}" class="btn btn-outline-primary">Next</a>
+                <a href="{{ url_for('admin.find_bookings', page=bookings.next_num) }}" class="btn btn-primary"> --> </a>
             {% endif %}
     </div>
 {% endblock %}

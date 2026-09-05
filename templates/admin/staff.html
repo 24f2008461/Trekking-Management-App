@@ -9,7 +9,7 @@
 </div>
 
 <form method="GET" action="{{ url_for('admin.find_staff') }}" class="d-flex mb-3" style="max-width: 400px;">
-  <input type="text" username="s" user_id="s" value="{{ s }}" class="form-control me-2" placeholder="Search by Staff Name or ID...">
+  <input type="text" name="s"  value="{{ s }}" class="form-control me-2" placeholder="Search by Staff Name or ID...">
   <button class="btn btn-outline-custom" type="submit">Search</button>
 </form>
 
@@ -52,4 +52,24 @@
     </table>
   </div>
 </div>
+ <div class="mt-3 d-flex justify-content-center">
+            {% if staff.has_prev %}
+                <a href="{{ url_for('admin.find_staff', page=staff.prev_num) }}" class="btn btn-primary me-2"> <-- </a>
+            {% endif %}
+                {% for page_num in staff.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+            {% if page_num %}
+                {% if page_num == staff.page %}
+                    <span class="btn btn-secondary me-2">{{ page_num }}</span>
+                {% else %}
+                    <a href="{{ url_for('admin.find_staff', page=page_num) }}" class="btn me-2">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                <span class="me-2 text-muted">....</span>
+            {% endif %}
+        {% endfor %}
+            {% if staff.has_next %}
+                <a href="{{ url_for('admin.find_staff', page=staff.next_num) }}" class="btn btn-primary"> --> </a>
+            {% endif %}
+    </div>
+
 {% endblock %}

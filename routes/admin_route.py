@@ -64,6 +64,7 @@ def admin_dashboard():
 @role_validator("admin")
 def find_treks():
     t = request.args.get("t", '').strip()
+    page = request.args.get('page', 1, type=int)
     query = TREKK.query
     if t:
         search_filters = db.or_(
@@ -73,7 +74,7 @@ def find_treks():
             )
         query = query.filter(search_filters)
 
-    treks = query.order_by(TREKK.date_of_create.desc()).all()
+    treks = query.order_by(TREKK.date_of_create.desc()).paginate(page=page, error_out=False,per_page=5)
     return render_template("admin/treks.html", treks=treks, t=t)
 
 
@@ -199,37 +200,36 @@ def edit_treks(t_id):
 @role_validator("admin")
 def find_staff():
     s = request.args.get("s", "").strip()
+    page = request.args.get('page', 1, type=int)
     query = USER.query.filter_by(role="staff",status="approved")
     if s:
         search_filters = db.or_(
-                    USER.name.ilike(f"%{s}%"),
+                    USER.username.ilike(f"%{s}%"),
                     USER.user_id == int(s) if s.isdigit() else db.false(),
                     )
-        query = query.filter(db.or_(search_filters))
-    staff = query.order_by(USER.date_of_create.desc()).all()
-    return render_template("admin/staff.html", staff=staff, s=s)
+        query = query.filter(db.or_(*search_filters))
+    staff = query.order_by(USER.date_of_create.desc()).paginate(page=page, per_page=10, error_out=False)
+    return render_template("admin/staff.html", staff=staff)
 
 
 
 @admin_bp.route("/staff/validate_staff" , methods=['GET','POST'])
 @role_validator("admin")
 def validate_staff():
-    validation_list = USER.query.filter_by(role='staff', is_validated=False).all()
-    current_filter = 'pending'
-    
-    if request.method=='POST':
-        validation=request.form.get('validation')
+    page = request.args.get('page',1, type=int)
+    validation=request.args.get('validation', 'pending')
 
-        if validation=='pending':
-            validation_list = USER.query.filter( USER.role=='staff', USER.status=='pending').all()
+    if validation=='pending':
+        query = USER.query.filter( USER.role=='staff', USER.status=='pending')
 
-        if validation=='approved':
-            validation_list = USER.query.filter(USER.role=='staff', USER.status=='approved').all()
-
-        if validation=='blacklisted':
-            validation_list = USER.query.filter(USER.role=='staff', USER.status=='blacklisted').all()
-            
-    return render_template("admin/validate_staff.html", validation_list=validation_list,current_filter=current_filter )
+    if validation=='approved':
+        query = USER.query.filter(USER.role=='staff', USER.status=='approved')
+       
+    if validation=='blacklisted':
+        query = USER.query.filter(USER.role=='staff', USER.status=='blacklisted')
+        
+    validation_list = query.paginate(page=page, error_out=False, per_page=10)          
+    return render_template("admin/validate_staff.html", validation_list=validation_list,current_filter=validation)
 
 
 
@@ -276,6 +276,7 @@ def delete_staff(user_id):
 @role_validator("admin")
 def find_users():
     s = request.args.get("s", "").strip()
+    page = request.args.get('page', 1 ,type=int)
     query = USER.query.filter_by(role="user",status="approved")
     if s:
         search_filters = db.or_(
@@ -283,29 +284,27 @@ def find_users():
                     USER.user_id == int(s) if s.isdigit() else db.false(),
                     )
         query = query.filter(db.or_(search_filters))
-    user = query.order_by(USER.date_of_create.desc()).all()
-    return render_template("admin/users.html", user=user, s=s)
+    user = query.order_by(USER.date_of_create.desc()).paginate(page=page,per_page=10, error_out=False)
+    return render_template("admin/users.html", user=user)
 
 
 @admin_bp.route("/user/validate_user" , methods=['GET','POST'])
 @role_validator("admin")
 def validate_users():
-    validation_list = USER.query.filter_by(role='user', is_validated=False).all()
-    current_filter = 'pending'
-    
-    if request.method=='POST':
-        validation=request.form.get('validation')
+    page = request.args.get('page',1, type=int)
+    validation=request.args.get('validation', 'pending')
 
-        if validation=='pending':
-            validation_list = USER.query.filter( USER.role=='user', USER.status=='pending').all()
+    if validation=='pending':
+        query = USER.query.filter( USER.role=='user', USER.status=='pending')
 
-        if validation=='approved':
-            validation_list = USER.query.filter(USER.role=='user', USER.status=='approved').all()
-
-        if validation=='blacklisted':
-            validation_list = USER.query.filter(USER.role=='user', USER.status=='blacklisted').all()
-            
-    return render_template("admin/validate_users.html", validation_list=validation_list,current_filter=current_filter )
+    if validation=='approved':
+        query = USER.query.filter(USER.role=='user', USER.status=='approved')
+        
+    if validation=='blacklisted':
+        query = USER.query.filter(USER.role=='user', USER.status=='blacklisted')
+        
+    validation_list = query.paginate(page=page, error_out=False, per_page=10)          
+    return render_template("admin/validate_staff.html", validation_list=validation_list,current_filter=validation)
 
 @admin_bp.route('/user/<int:user_id>/approve_user', methods=['POST'])
 @role_validator('admin')
@@ -354,15 +353,16 @@ def find_bookings():
             contains_eager(BOOKING.user), 
             contains_eager(BOOKING.trek)
         )
-            )
+    )
     if q:
         search_filters = [
             USER.fullname.ilike(f"%{q}%"),
             USER.username.ilike(f"%{q}%"),
-            TREKK.name.ilike(f"%{q}%")
+            TREKK.name.ilike(f"%{q}%"),
+            TREKK.location.ilike(f"%{q}%")
             ]
         if q.isdigit():
-            search_filters.append(BOOKING.id == int(q))
+            search_filters.append(BOOKING.booking_id == int(q))
         query = query.filter(db.or_(*search_filters))
     bookings = query.order_by(BOOKING.booking_date.desc()).paginate(page=page, per_page=10, error_out=False)
-    return render_template("admin/bookings.html", bookings=bookings, q=q)
+    return render_template("admin/bookings.html", bookings=bookings)
