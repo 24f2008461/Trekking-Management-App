@@ -1,4 +1,4 @@
-﻿# Trekk App :- Trekking Management Application
+﻿# TrekkTrail :- Trekking Management Application
 A completely Flask-based web-application to manage trekking activities involving trek organizers, staff, and users. This app solves the problem of  individuals and many trekking groups rely on spreadsheets, phone calls, or manual coordination, by providing trek approvals, track bookings, avoid overbooking, and maintain trek history. Staffs can manage participants efficiently and user can effortlessly book and track their trekking.
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
@@ -171,3 +171,54 @@ Modern_Application__Development/
 │
 └── instance/                   # SQLite Database
 ```
+---
+
+## 🚀 Quick Start Guide
+
+
+```bash
+# 1. Clone the repository
+git clone <your-repo-link>
+cd Trekking_management_app
+
+# 2. Create a virtual environment
+python -m venv venv
+
+# 3. Activate the virtual environment
+# Windows
+venv\Scripts\Activate
+# macOS / Linux
+source venv/bin/activate
+
+# 4. Install dependencies
+pip install -r "requirements.txt"
+
+# 5. Generate Demo Data (Optional but recommended)
+python seed.py
+
+# 6. Run the application
+python app.py
+```
+
+> ⚠️ **Note:** The `seed.py` script is provided strictly for generating demo data and populating the database during development or evaluation. It should not be included in your main production project deployment.
+
+The application will start on **http://127.0.0.1:5000**
+
+---
+
+## 🔑 Demo Credentials
+
+If you generated data using `seed.py`, you can use the following credentials to explore the system:
+
+| Role | Username | Password |
+|------|----------|----------|
+| **Admin** | `admin` | `admin@777` |
+| **Staff** | `staff_john_1` | `password123` |
+| **User** | `trekker_john_1` | `password123` |
+
+*(Important: The seed script randomly generates first names, so the exact staff and user usernames will vary, but their passwords are always `password123`.)*
+
+---
+<div align="center">
+Made by Anubhav Bhaskar
+</div>
