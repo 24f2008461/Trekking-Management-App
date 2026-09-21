@@ -38,6 +38,7 @@ user_bp = Blueprint("user",__name__,url_prefix="/user")
 @user_bp.route("/user_dashboard")
 @role_validator("user")
 def user_dashboard():
+    page = request.args.get('page',1, type=int)
     u_id = session.get('user_id','')
     query = TREKK.query.filter(TREKK.status.in_(['Open']))
 
@@ -45,23 +46,23 @@ def user_dashboard():
     location = request.args.get('location')
 
     if difficulty:
-        query = query.filter(TREKK.difficulty == difficulty)
+        query = query.filter(TREKK.difficulty == difficulty,TREKK.status=='Open').order_by(TREKK.start_date)
 
     if location:
-        query = query.filter(TREKK.location == location)
+        query = query.filter(TREKK.location == location,TREKK.status=='Open').order_by(TREKK.start_date)
 
-    avl_treks = query.filter(TREKK.status=='Open').order_by(TREKK.start_date).all()
+    avl_treks =  query.paginate(page=page, error_out=False, per_page=10)       
     all_avl_location = [loc[0] for loc in db.session.query(TREKK.location).distinct().all() if loc[0]]
 
     my_bookings = (
         db.session.query(BOOKING, TREKK)
         .join(TREKK,BOOKING.trek_id == TREKK.trek_id)
         .filter(BOOKING.user_id == u_id, BOOKING.status == "Booked")
-        .order_by(BOOKING.booking_date.desc()).all()
+        .order_by(BOOKING.booking_date.desc()).limit(5)
     )
 
     my_details = {
-        "total_bookings" : BOOKING.query.filter_by(user_id=u_id).count(),
+        "total_bookings" : BOOKING.query.filter(BOOKING.user_id==u_id,BOOKING.status.in_(['Completed','Pending'])).count(),
         "active" : BOOKING.query.filter_by(user_id=u_id, status="Booked").count(),
         "completed" : BOOKING.query.filter_by(user_id=u_id, status="Completed").count()
     }

@@ -219,14 +219,15 @@ def validate_staff():
     page = request.args.get('page',1, type=int)
     validation=request.args.get('validation', 'pending')
 
-    if validation=='pending':
-        query = USER.query.filter( USER.role=='staff', USER.status=='pending')
-
     if validation=='approved':
         query = USER.query.filter(USER.role=='staff', USER.status=='approved')
        
-    if validation=='blacklisted':
+    elif validation=='blacklisted':
         query = USER.query.filter(USER.role=='staff', USER.status=='blacklisted')
+
+    else:
+        validation ='pending'
+        query = USER.query.filter( USER.role=='staff', USER.status=='pending')
         
     validation_list = query.paginate(page=page, error_out=False, per_page=10)          
     return render_template("admin/validate_staff.html", validation_list=validation_list,current_filter=validation)
@@ -280,11 +281,11 @@ def find_users():
     query = USER.query.filter_by(role="user",status="approved")
     if s:
         search_filters = db.or_(
-                    USER.name.ilike(f"%{s}%"),
+                    USER.username.ilike(f"%{s}%"),
                     USER.user_id == int(s) if s.isdigit() else db.false(),
                     )
         query = query.filter(db.or_(search_filters))
-    user = query.order_by(USER.date_of_create.desc()).paginate(page=page,per_page=10, error_out=False)
+    user = query.order_by(USER.date_of_create.desc()).paginate(page=page,per_page=8, error_out=False)
     return render_template("admin/users.html", user=user)
 
 
@@ -294,17 +295,17 @@ def validate_users():
     page = request.args.get('page',1, type=int)
     validation=request.args.get('validation', 'pending')
 
-    if validation=='pending':
-        query = USER.query.filter( USER.role=='user', USER.status=='pending')
-
-    if validation=='approved':
+    if validation =='approved':
         query = USER.query.filter(USER.role=='user', USER.status=='approved')
         
-    if validation=='blacklisted':
+    elif validation =='blacklisted':
         query = USER.query.filter(USER.role=='user', USER.status=='blacklisted')
+    else:
+        validation ='pending'
+        query = USER.query.filter( USER.role=='user', USER.status=='pending')
         
     validation_list = query.paginate(page=page, error_out=False, per_page=10)          
-    return render_template("admin/validate_staff.html", validation_list=validation_list,current_filter=validation)
+    return render_template("admin/validate_users.html", validation_list=validation_list,current_filter=validation)
 
 @admin_bp.route('/user/<int:user_id>/approve_user', methods=['POST'])
 @role_validator('admin')

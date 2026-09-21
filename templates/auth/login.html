@@ -28,21 +28,21 @@
     {% endwith %} 
 
     <div class="auth-form">
-        <h1 class="auth-title">Trekk App</h1>
+        <h1  class="auth-title">Trekk<span style="color: #000; text-shadow: none;">Trail</span></h1>
         <p class="auth-subtitle">Login to your Account</p>
         
         <form action="{{ url_for('auth.login') }}" method="POST" class="auth-box">
             
             <input type="text" name="uname" placeholder="Username" class="form-control" >
             <input type="password" name="password" placeholder="Password" class="form-control">
-            <!-- <label for="" style="display:flex; flex-direction: row; height: 50px; align-items: center;">
-                <input type="checkbox" name="rememberme" style="width: 15px; height: 50px; margin-left: 65px; margin-right: 70px; box-shadow: none;"> 
-                <p style="font-size: 16px; margin-top: 18px;">Remember Me</p>
-            </label> -->
+            <label for="rememberme" style="display:flex; flex-direction: row; height: 50px; align-items: center; justify-content:space-between;">
+                <input type="checkbox" name="rememberme" style="box-shadow: none;"> 
+                <p style="color: #000; font-size: 16px; margin-top: 18px;">Remember Me</p>
+            </label>
         
             <button class="btn sm btn-danger" >Login</button>
         </form>
-        <p style="margin: 0; font-size:1rem; padding-top: 1rem;">Don't have an account? </p><a href="{{ url_for('auth.register')}}" style="font-size: 1rem; text-decoration: none;padding-top: 0; padding-bottom: 1rem;"> Register Here!</a>
+        <p style="color: #000; margin: 0; font-size:1rem; padding-top: 1rem;">Don't have an account? </p><a href="{{ url_for('auth.register')}}" style="font-size: 1rem; text-decoration: none;padding-top: 0; padding-bottom: 1rem;"> Register Here!</a>
     </div>
     
        <footer class="mt-5 pt-3 pb-2 text-center" style="border-top: 1px solid black ;">

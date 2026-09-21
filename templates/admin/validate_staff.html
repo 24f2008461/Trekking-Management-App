@@ -36,8 +36,8 @@
         </tr>
       </thead>
       <tbody>
-     
-      {% for st in validation_list %}
+      {% if validation_list.items %}
+      {% for st in validation_list.items %}
       <tr>
         <td>{{ st.user_id }}</td>
         <td class="fw-semibold">{{ st.username }}</td>
@@ -54,7 +54,7 @@
         </td>
         
         <td>
-           {% if not st.is_validated and st.status != 'blacklisted' %}
+           {% if st.status == 'pending' or (not st.is_validated and st.status != 'blacklisted' and st.status != 'approved') %}
             <form method="POST" action="{{ url_for('admin.approve_staff', user_id=st.user_id) }}" class="d-inline">
                 <button type="submit" class="btn btn-sm btn-outline-success me-1">Approve</button>
             </form>
@@ -75,15 +75,16 @@
             </form>
             {% endif %}
         </td>
-      </tr>
-      {% else %}
+    </tr>
+    {% endfor %}
+    {% else %}
       <tr>
           <td colspan="7" class="text-muted text-center py-4">
-              <h5>No Staff Found!</h5>
-              <p>No staff members match the current filter.</p>
+              <h5 class="row-msg ">No Staff Found!</h5>
+              <p class="row-msg ">No staff members match the current filter.</p>
           </td>
       </tr>
-      {% endfor %}
+    {% endif %}
       </tbody>
     </table>
 </div>

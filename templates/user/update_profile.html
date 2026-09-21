@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %} {{ user.username }} | Update Profile {% endblock %}
 {% block content %}
+<span class="p-2 rounded-3 bg-secondary "><a href="{{ url_for('user.user_dashboard' ) }} " class=" text-decoration-none text-white"> Go Back </a></span>
 <div class="page-heading">
   <h2>Update Profile</h2>
   <u>Update Profile of {{ user.username }} </u>

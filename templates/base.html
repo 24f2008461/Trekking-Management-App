@@ -18,10 +18,11 @@
                     <button class="sidebar-toggle" data-bs-target="#custom-sidebar" data-bs-toggle="collapse">
                         <i class="bi bi-list"></i>
                     </button>
-                    <a href="{{ url_for('admin.admin_dashboard') }}" class="app-title">TrekkTrail</a>
+                    <a href="{{ url_for('admin.admin_dashboard') }}" class="app-title">Trekk<span style="color: #000; text-shadow: none;">Trail</span></a>
                 
             </div>
-            <div class="navbar-nav d-flex flex-row align-items-center me-3">
+            <div class="navbar-nav d-flex flex-row align-items-center gap-2 me-3">
+                <img src="/static/images/usericon.png" alt="icon" style="width: 20px;height: 20px;">
                 <span class="nav-link fw-semibold text-nowrap text-truncate" style="max-width: 100px;">{{ session.get('username','') }}</span>
                 <a class="nav-link logout-btn" href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
@@ -32,7 +33,7 @@
 
         <div class="d-flex flex-grow-1">
             <div class="custom-sidebar collapse collapse-horizontal show" id="custom-sidebar">
-            <div class="list-group list-group-flush my-2" style="width: 150px;">
+            <div class="list-group list-group-flush my-2 text-nowrap" style="width: 150px;overflow: hidden;">
                 <ul class="nav flex-column">
                     {% if session.get("role") == 'admin' %}
                     <li class="nav-item "><a class="nav-link text-dark" href="{{ url_for('admin.find_users' ) }}"> Users</a></li>
@@ -54,12 +55,12 @@
                 </ul>
             </div>
             </div>
-            <div class="main-content flex-grow-1 px-3 py-3">
+            <div class="main-content d-flex flex-column  px-3 py-3 flex-grow-1" style="min-width: 0;">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                 {% for cat, msg in messages %}
                     
-                    <div class="alert alert-{{ cat }} position-fixed top-10 start-50 translate-middle-x p-3 alert-dismissible fade show shadow-lg d-flex align-items-center" role="alert" style="min-width: 300px; border-radius: 10px;">
+                    <div class="alert alert-{{ cat }} position-fixed  end-0 mt-3 me-3 p-3 alert-dismissible fade show shadow-lg d-flex align-items-center" role="alert" style="top:64px; min-width: 300px; border-radius: 10px; z-index: 1050;">
                         <div class="me-auto fw-medium text-nowrap">
                             {{ msg }}
                         </div>
@@ -69,11 +70,11 @@
                 {% endif %}
                 {% endwith %} 
 
-                <div class="container-fluid">{% block content %}  {% endblock %}</div>
+                <div class="container-fluid flex-grow-1 mb-5">{% block content %}  {% endblock %}</div>
                 
                 
-               <footer class="mt-5 pt-3 pb-2 text-center" style="border-top: 1px solid black ;">
-                    <small class="text-black">&copy; 2026 Trekk App | Trekking Management Application</small>
+               <footer class="mt-auto pt-3 b-2 text-center" style="border-top: 1px solid black ;">
+                    <small class="text-black">&copy; 2026 TrekkTrail | Trekking Management Application</small>
                 </footer>
             </div>
         </div> 

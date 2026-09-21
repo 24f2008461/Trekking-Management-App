@@ -40,7 +40,7 @@ def login():
          session["user_id"] = loged_user.user_id
          session["role"] = loged_user.role.strip()
          session["username"] = loged_user.username
-         flash(f"Welcome back, {loged_user.fullname}!", "success")
+         flash(f"Welcome back, {loged_user.username}!", "success")
 
 
          if loged_user.role == "admin":
