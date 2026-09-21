@@ -149,7 +149,7 @@ Modern_Application__Development/
 │
 ├── app.py                      # Application entry point
 ├── models.py                   # SQLAlchemy models
-├── data.py                     # Demo data generator
+├── seed.py                     # Demo data generator
 │
 ├── routes/                     # Blueprint definitions
 │   ├── __init__.py
