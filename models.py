@@ -46,6 +46,7 @@ class TREKK(db.Model): # trek table(entity)
     avl_slots = db.Column(db.Integer, nullable=False)
     assigned_staff_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
     description = db.Column(db.Text, nullable=True)
+    trek_img = db.Column(db.String, nullable=True)
     price = db.Column(db.Float, nullable=False) # 2000.50, 2500.40
     status = db.Column(db.String(50), nullable=False,default="Pending" )  # Pending, Approved, Closed, Open & Completed
     start_date = db.Column(db.Date, nullable=False) 

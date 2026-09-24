@@ -29,7 +29,7 @@
 body {
   font-family: 'Inter', sans-serif;
  
-  background:linear-gradient(transparent, rgba(192, 216, 255, 0.45)),url('/static/images/trekkbg1.png')  center/cover no-repeat;
+  background:linear-gradient(transparent, rgba(192, 216, 255, 0.45)),url('/static/images/trekkbg4.jpg')  center/cover no-repeat;
   color: var(--gray-800);
   padding: 0;
   margin: 0;
@@ -192,7 +192,7 @@ body p , u, h5, h4 {
 /*-------------------tables---------------------------------*/
 
 .table-panel{background: var(--primary-dark); border: transparent; width: 100%;border-radius: var(--radius);overflow: hidden;box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);}
-.table-panel h6 {color: yellow;}
+.table-panel h4 {color: #000}
 .table-panel .table { margin-bottom: 0;}
 .table-panel .table thead th {background: var(--gray-100);font-weight: 600;font-size: .8rem;text-transform: uppercase;letter-spacing: .5px;color: var(--dark);padding: .75rem 1rem;}
 .table-panel .table td { padding: .75rem 1rem; vertical-align: middle; font-size: .9rem; background: var(--gray-100);}
@@ -229,19 +229,19 @@ body p , u, h5, h4 {
 
 /*--------------------------------buttons----------------------------*/
 
-.btn-primary-custom {
+.btn-primary {
   background: var(--btn-primary);
   color: #fff;
-  border: none;
+  border: #0800ff 1px solid;
   border-radius: 6px;
   padding: .25rem .5rem;
   font-weight: 600;
-  font-size: .9rem;
-  box-shadow: 1px 2px 1px rgba(0,0,0, 0.3);
+  
+  
   transform: scale(1);
-  transition: transform 0.4s ease-in-out; background-color: 0.2s linear 0s;
+  transition: transform 0.3s ease-in-out, background-color 0.2s linear 0s;
 }
-.btn-primary-custom:hover { background: whitesmoke; color: var(--btn-primary);transform: scale(1.2); }
+.btn-primary:hover { background: whitesmoke; color: var(--btn-primary);transform: scale(0.9); border: var(--btn-primary) 1px solid }
 .btn-accent {
   background: var(--btn-primary);
   color: #fff;
@@ -249,8 +249,7 @@ body p , u, h5, h4 {
   border-radius: 6px;
   padding: .25rem .5rem;
   font-weight: 600;
-  box-shadow: 1px 2px 1px rgba(0,0,0, 0.3);
-  transform: scale(1.0);
+  transform: scale(1);
   transition: transform 0.3s ease-in-out 0s,background-color 0.2s linear 0s;
  
 }
@@ -269,6 +268,18 @@ body p , u, h5, h4 {
 }
 .btn-outline-custom:hover { background: var(--btn-primary); color: #fff; transform: scale(0.9);}
 
+.btn-outline-danger {
+  border: 1px solid red;
+  color: red;
+  border-radius: 6px;
+  padding: .25rem .5rem;
+  font-weight: 600;
+  background: transparent;
+  font-size: .9rem;
+  transform: scale(1.0);
+  transition: transform 0.4s ease, background-color 0.3s linear 0s;
+}
+.btn-outline-danger:hover { background: var(--danger); color: #fff; transform: scale(0.9);}
 
 /* ----------------------------------treck------------------------- */
 .trek-panel {

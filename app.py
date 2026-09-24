@@ -1,15 +1,18 @@
 import os  
+from datetime import timedelta
 from flask import Flask,session,g
 from werkzeug.security import generate_password_hash
-from flask import render_template
+from werkzeug.utils import secure_filename
 from models import db, USER
 from routes import auth_bp
 from routes import admin_bp
 from routes import user_bp
 from routes import staff_bp
+
 # Setting directory
 cur_dir = os.path.abspath(os.path.dirname(__file__))  # current/working directory
-
+UPLOAD_FOLDER = os.path.join(cur_dir, 'file_uploads')
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 # Flask App creation
 app = Flask(__name__)
@@ -18,11 +21,15 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']  = "sqlite:///" + os.path.join(cur_dir, "instance", "trekkapp.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY","prj-secret-key-tma")
-
-
+app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=5)
 #Initialising Database
 os.makedirs(os.path.join(os.path.dirname(__file__), "instance"),exist_ok=True)
+os.makedirs((app.config['UPLOAD_FOLDER']),exist_ok=True)
 db.init_app(app)
+
+
 
 
 #Adding Admin to Database if not present

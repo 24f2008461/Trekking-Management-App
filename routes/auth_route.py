@@ -23,6 +23,8 @@ def login():
    if request.method=="POST":
       uname = request.form.get('uname', '').strip()
       password = request.form.get('password', '').strip()
+      remember = request.form.get('remember_me') is not None
+
       loged_user = USER.query.filter_by(username=uname).first()
       if loged_user and check_password_hash(loged_user.password, password):
 
@@ -36,7 +38,7 @@ def login():
             loged_user.curr_status = "active"
 
             db.session.commit()
-
+         session.permanent = remember
          session["user_id"] = loged_user.user_id
          session["role"] = loged_user.role.strip()
          session["username"] = loged_user.username

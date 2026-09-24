@@ -2,48 +2,150 @@
 {% block title %} {{ session.get('username','')}} | Booking-Trek  Details{% endblock %}
 {% block content%}
 <span class="p-2 rounded-3 bg-secondary "><a href="{{ url_for('user.user_dashboard' ) }} " class=" text-decoration-none text-white"> Go Back </a></span>
-<div class="bg-secondary rounded-3 p-2 text-white mt-3">
-    <div class="d-flex justify-content-center align-item-center mt-2" >
-        <h2 ># {{ trek.name }}</h2>
+      
+<div class="container d-flex justify-content-center align-items-center min-vh-100 py-5">   
+<div class="card shadow-lg border-0 w-100" style="max-width: 50%;border-radius: 10px; " >
+    {% if trek.trek_img %}
+    <img src="{{ url_for('user.download_file', name=trek.trek_img )}}" alt="{{ trek.name }} Trek" 
+        style="max-width: 100%; height: 250px;border-top-left-radius: 10px;border-top-right-radius: 10px;" > 
+    {% else %}
+    <div class="bg-info ">
+        {{ trek.name }}
     </div>
-
-    <div class="rounded-3 p-2 text-black" style="background: var(--gray-200);">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="d-flex justify-content-between ms-2 mb-1"><strong>Location :</strong>{{trek.location}}</div>
-                <div  class="d-flex justify-content-between ms-2 mb-1"><strong>Difficulty :</strong>{{trek.difficulty}}</div>
-                <div  class="d-flex justify-content-between ms-2" mb-1><strong>Duration :</strong>{{trek.duration}}</div>
-                <div  class="d-flex justify-content-between ms-2 mb-1"><strong>Start Date :</strong>{{trek.start_date}}</div>
-                <div  class="d-flex justify-content-between ms-2 mb-1"><strong>End Date :</strong>{{trek.end_date}}</div>
-                <div  class="d-flex justify-content-between ms-2 mb-1"><strong>Available Slots :</strong>{{trek.avl_slots}} -- remains </div>
-                {% if trek.price %}<div  class="d-flex justify-content-between ms-2 mb-1"><strong>Price:</strong> ₹{{ "%.0f"|format(trek.price) }}</div>{% endif %}
-                {% if trek.staff %}<div  class="d-flex justify-content-between ms-2 mb-1"><strong>Trek Guide :</strong> {{ trek.staff.fullname }}</div>{% endif %}
-                <div class="d-flex justify-content-between ms-2 mb-1"><strong>Status :</strong>{{trek.status}}</div> 
-                {% if trek.description %}
-                    <h6 class="fw-bold ms-2 mb-1">Description :</h6>
-                    <p class="small text-muted">{{ trek.description }}</p>
-                {% endif %}
-            </div>
-            <!-- <div class="col-md-6 d-flex align-items-center justify-content-center">
-                    <img src="/static/img/hiking.png" alt="Annapurna Circuit" width="50%" height="50%" class="mt-2"> 
-            </div> -->
+    {% endif %}
+    
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-start mb-2">
+            <h4 class="card-title fw-bold mb-0"># {{ trek.name }}</h4>
         </div>
-        <div class="d-flex justify-content-end align-items-center">
-            {% if trek.status in ['Open', 'Approved'] and trek.avl_slots > 0 and not isbooked %}
+        <hr>
+        <p class="card-text text-muted mb-4">
+            {{ trek.description }}
+        </p>
+        
+        <!-- The Grid: Using .row and .col-6 to create a 2x2 grid for details -->
+        <div class="row g-3 mb-4">
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+                    <div>
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">{{ trek.location }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                    <div>
+                        <div class="detail-label">Duration</div>
+                        <div class="detail-value">14 Days</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle text-danger ">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <div>
+                        <div class="detail-label">Difficulty</div>
+                        <div class="detail-value">{{ trek.difficulty }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle">
+                        <i class="bi bi-file-spreadsheet"></i>
+                    </div>
+                    <div>
+                        <div class="detail-label">Available Slots</div>
+                        <div class="detail-value">{{ trek.avl_slots }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle">
+                        <i class="bi bi-calendar2-week"></i>
+                    </div>
+                    <div>
+                        <div class="detail-label">Starting </div>
+                        <div class="detail-value">{{ trek.start_date }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle">
+                        <i class="bi bi-calendar2-week"></i>
+                    </div>
+                    <div>
+                        <div class="detail-label"> Ending </div>
+                        <div class="detail-value">{{ trek.end_date }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div>
+                        <div class="detail-label">Staff/Guide</div>
+                        <div class="detail-value">{{ trek.staff.fullname }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle text-info">
+                        <i class="bi bi-question-circle"></i>
+                    </div>
+                    <div>
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value">{{ trek.status }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle text-success ">
+                        <i class="bi bi-tag"></i>
+                    </div>
+                    <div>
+                        <div class="detail-label">Cost</div>
+                        <div class="detail-value"><i class="bi bi-currency-rupee"></i>{{ trek.price }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Flexbox utility to align the button to the bottom right -->
+        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+            <div class="d-flex justify-content-end align-items-center">
+                {% if trek.status in ['Open', 'Approved'] and trek.avl_slots > 0 and not isbooked %}
                 <form method="POST" action="{{ url_for('user.book_trek', t_id=trek.trek_id) }}">
-                    <button type="submit" class="btn btn-lg btn-primary">Book Now</button>
+                    <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold shadow-sm">Book Now</button>
                 </form>
-            {% elif isbooked %}
+                {% elif isbooked %}
                 <h6 class="mt-2  me-1 fw-bold text-danger"> Trek Already Booked !</h6>
-              
+            
                 <a href="{{ url_for('user.user_bookings' ) }}" class="btn btn-lg btn-outline-custom">View Bookings</a>
-            {% elif trek.avl_slots <= 0 %}
+                {% elif trek.avl_slots <= 0 %}
                 <h6 class="mt-2 fw-bold text-danger">All Slots Booked!</h6>
-            {% else %}
+                {% else %}
                 <h6 class="mt-2 fw-bold text-muted">Not Open</h6>
                 <p>The trek is currently {{ trek.status }}.</p>
-            {% endif %}
-        </div>  
-    </div>
+                {% endif %}
+            </div>  
+        </div>
+    </div>    
+</div>
 </div>
 {% endblock %}

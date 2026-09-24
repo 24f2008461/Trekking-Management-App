@@ -15,7 +15,7 @@
 
 <div class="table-panel">
   <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
-        <h6 class="mb-0 fw-bold">Bookings</h6>
+        <h4 class="mb-0 fw-bold">Bookings</h4>
         <a href="{{ url_for('admin.admin_dashboard' ) }}" class="btn btn-outline-custom">Go Back</a>
     </div>
     <table class="table"> 
@@ -31,7 +31,7 @@
                 <td>{{ b.status}}</td>
             </tr>
             {% else %}
-                <tr><td colspan="6" class="text-center text-muted py-4">No Bookings Yet!</td></tr>
+                <tr><td colspan="6" class="text-center py-4">No Bookings Yet!</td></tr>
             {% endfor %}
             </tbody>
         </table>
@@ -45,7 +45,7 @@
                 {% if page_num == bookings.page %}
                     <span class="btn btn-secondary me-2">{{ page_num }}</span>
                 {% else %}
-                    <a href="{{ url_for('admin.find_bookings', page=page_num) }}" class="btn me-2">{{ page_num }}</a>
+                    <a href="{{ url_for('admin.find_bookings', page=page_num) }}" class="btn me-2 text-white">{{ page_num }}</a>
                 {% endif %}
             {% else %}
                 <span class="me-2 text-muted">....</span>

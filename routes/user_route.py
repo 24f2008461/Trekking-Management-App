@@ -1,4 +1,4 @@
-from flask import session, request, render_template, Blueprint, flash, url_for, redirect
+from flask import session, request, render_template, Blueprint, flash, url_for, redirect, send_from_directory,current_app
 from functools import wraps
 from sqlalchemy.orm import joinedload
 from models import db, USER, TREKK, BOOKING
@@ -82,8 +82,16 @@ def book_trek_details(t_id):
     isbooked = None
     if user_id:
         isbooked = BOOKING.query.filter_by(user_id=user_id, trek_id=t_id, status="Booked").first()
+   
+    
     
     return render_template("user/book_trek_details.html", trek=trek, isbooked=bool(isbooked))
+
+@user_bp.route('/file_uploads/<name>')
+def download_file(name):
+    return send_from_directory(current_app.config["UPLOAD_FOLDER"], name)
+
+
 
 @user_bp.route("/treks/<int:t_id>/book_trek", methods=["POST"])
 @role_validator("user")

@@ -10,7 +10,7 @@
     <div class="py-1 border-bottom d-flex justify-content-center align-items-center">
          <h2 class="mb-0 fs-2 fw-bold" style="color: var(--accent-pale)">Add New Treks</h2>
     </div>
-    <form action="{{ url_for('admin.add_treks') }}" method="POST">
+    <form action="{{ url_for('admin.add_treks') }}" method="POST" enctype=multipart/form-data>
         <div class="row py-3">
             <div class="col-lg-6">
                 <div class="form-group">
@@ -70,6 +70,10 @@
                     </select>
                 </div>
             </div>
+        </div>
+        <div class="form-group">
+            <label for="file">Image</label>
+            <input type="file" class="form-control" name="file" accept="image/*" required>
         </div>
         <div class="form-group" >
             <label for="description">Description</label>

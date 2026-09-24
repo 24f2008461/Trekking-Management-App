@@ -1,10 +1,13 @@
-from flask import session, request, render_template, Blueprint, flash, url_for, redirect
+from flask import session, request, render_template, Blueprint, flash, url_for, redirect,current_app
 from functools import wraps
 from datetime import date
 from sqlalchemy import or_
 from sqlalchemy.orm import joinedload, contains_eager
 from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
 from models import db, USER,TREKK,BOOKING
+import os
+
 
 
 
@@ -78,6 +81,10 @@ def find_treks():
     return render_template("admin/treks.html", treks=treks, t=t)
 
 
+def allowed_file(filename):
+    allowed_ext = current_app.config.get('ALLOWED_EXTENSIONS')
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_ext
+
 
 @admin_bp.route("/treks/Add_Treks", methods=['GET','POST'])
 @role_validator("admin")
@@ -102,11 +109,15 @@ def add_treks():
             
             start_date_obj = date.fromisoformat(start_date) if start_date else None
             end_date_obj = date.fromisoformat(end_date) if end_date else None
-
         except ValueError:
-            flash("Total Slots & Duration Days must be positive number, also price can not negatice!", "danger")
+                flash("Total Slots & Duration Days must be positive number, also price can not negatice!", "danger")
+                return redirect(url_for('admin.add_treks'))
+        
+        file = request.files.get('file')
+        if 'file' not in request.files or file.filename == '':
+            flash('Trek Image not Uploaded', "danger")
             return redirect(url_for('admin.add_treks'))
-
+            
         new_trek = TREKK(
             name = tname,
             location=location,
@@ -123,6 +134,23 @@ def add_treks():
         )
 
         db.session.add(new_trek)
+        db.session.flush()
+        t_id = new_trek.trek_id
+        if file and allowed_file(file.filename):
+            trek_id = t_id 
+            trek_name = request.form.get('tname')
+            
+            _, ext = os.path.splitext(file.filename)
+            
+            # 3. Construct the new filename
+            raw_filename = f"{trek_id}_{trek_name}{ext}"
+            
+            # 4. Secure the new custom filename to prevent path traversal
+            filename = secure_filename(raw_filename)
+            
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            new_trek.trek_img = filename
+
         db.session.commit()
         flash("Trek Added Successfully!", "success")
         return redirect(url_for('admin.find_treks'))
